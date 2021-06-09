@@ -41,6 +41,6 @@ Instructions on how to use mermaid locally will be added later.
 
 ## Reporting issues or requests
 
-You can report issues or requests with either the Issues link above, or by forking the repository and creating a Pull Request. Alternatively, you can send a direct request to the NPa by email [mailto](operations@peppolautoriteit.nl). No rights can be derived from submissions.
+You can report issues or requests with either the Issues link above, or by forking the repository and creating a Pull Request. Alternatively, you can send a direct request to the NPa by email [operations@peppolautoriteit.nl](mailto:operations@peppolautoriteit.nl). No rights can be derived from submissions.
 
 The final result of this process will be submitted to the Service Provider community for approval.
