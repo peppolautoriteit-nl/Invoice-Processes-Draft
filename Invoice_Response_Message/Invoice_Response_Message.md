@@ -28,7 +28,7 @@ The process for the exchange of the Invoice Response is shown in picture 1.
 8. Buyer AP sends the Invoice Response Message to the Supplier AP as ApplicationResponse message.
 9. Supplier AP forwards the Invoice status to the Supplier (via his own channels).
 
-![Overview](overview.png)
+![Overview](Overview.png)
 
 ## Supported business states
 
