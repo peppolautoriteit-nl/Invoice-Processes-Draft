@@ -1,15 +1,14 @@
 # Guideline for implementation of invoice to payment process
 
-## 1 Introduction and briefing
+## 1 Introduction
 
 The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in Q3 2021. 
 This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
 The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
-
 ## 2 Process description
 
-1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the buyer. The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
+1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the customer (also refered to as buyer). The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
 2.	The serviceprovider of the supplier (corner 2) recognizes the customer (corner 4) and customer’s serviceprovider (corner 3) by resolving the identifier within the invoice document.
 3.	The serviceprovider of the supplier might need to transform the invoice to a registered Invoice document type before validating the invoice according to agreed specifications.
 4.	The serviceprovider of the supplier wraps the validated invoice in an envelope and sends the message on behalf of the supplier to the serviceprovider of the customer by using the Peppol mechanism (including a signed MDN process).
@@ -120,7 +119,35 @@ Invoice Response > Not applicable
 
 ## 4 Usage
 
+### 4.1 Message Level Response
 
+### 4.2 Invoice Response
+
+The scope of the Invoice Response is:
+
+1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the Peppol business documentation https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/). The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
+2. The Invoice Response Message is sent by the customer AP to the supplier AP conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to an invoice message sent by the supplier AP.
+3. The actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems. 
+4. The business meaning of the invoice status remains the same through the entire chain (e.g. the definition of the status ‘Accepted’ is the same in the entire chain).
+5. An Invoice may result in multiple Invoice Response messages.
+
+#### 4.2.1 Status codes
+
+The PEPPOL BIS Invoice Response supports a number of optional and mandatory status codes. 
+In order to have a proper understanding of the status of invoices in the process there is a strict order in which the status codes need to be used. 
+The order is shown in the table below. 
+Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
+Also the ERP vendor might not use the statusses in the same orders as defined here.
+
+| Status Code   | UNECE name                | BIS usage                                                                                                                                                                                                                                                                         | Clarification on requirements | Mandatory | Final |
+|--             |----                       |----------                                                                                                                                                                                                                                                                         |--                             |--         |--     |
+| AB            | Message acknowledgement   | Status is used when Buyer has received a readable invoice message that can be understood and submitted for processing by the Buyer.                                                                                                                                               | NO                            | YES       | NO    |
+| IP            | In Process                | Status is used when the processing of the Invoice has started in Buyers system.                                                                                                                                                                                                   | NO                            | NO        | NO    |
+| UQ            | Under query               | Status is used when Buyer will not proceed to accept the Invoice without receiving additional information from the Seller.                                                                                                                                                        | YES                           | NO        | NO    |
+| CA            | Conditionally accepted    | Status is used when Buyer is accepting the Invoice under conditions stated in ‘Status Reason’ and proceed to pay accordingly unless disputed by Seller.                                                                                                                           | YES                           | NO        | NO    |
+| RE            | Rejected                  | Status is used only when the Buyer will not process the referenced Invoice any further.Buyer is rejecting this invoice but not necessarily the commercial transaction. Although it can be used also for rejection for commercial reasons (invoice not corresponding to delivery). | YES                           | YES       | YES   |
+| AP            | Accepted                  | Status is used only when the Buyer has given a final approval of the invoice and the next step is payment                                                                                                                                                                         | NO                            | YES       | YES   |
+| PD            | Fully Paid                | Status is used only when the Buyer has initiated the payment of the invoice.                                                                                                                                                                                                      | NO                            | NO        | NO    |
 
 ## 5 Message definitions
 
@@ -128,14 +155,14 @@ The latest version of the syntax of the BIS3 Message Level Response and Invoice 
 *  https://docs.peppol.eu/poacc/upgrade-3/syntax/MLR/tree/
 *  https://docs.peppol.eu/poacc/upgrade-3/syntax/InvoiceResponse/tree/
 
-In the following paragraphs you will find a detailed description of the syntax and semantics that apply at the time of writing this document.
+In the following sections you will find a detailed description of the syntax and semantics that apply at the time of writing this document.
 
 ### 5.1 Message Level Response 3.0
 
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
 ----                                          | ---                                                                                               | ---           | ---           | ---
 xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
-ApplicationResponse                           | namespace =>                                                                                      | 1..1          |               | 
+ApplicationResponse                           |                                                                                                   | 1..1          |               | 
 ... cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:mlr:3                                                                | 1..1          | Identifier    | 
 ... cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:mlr:3                                                                 | 1..1          | Identifier    | 
 ... cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Message Level Response. 
@@ -170,60 +197,60 @@ ApplicationResponse                           | namespace =>                    
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
 xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
-ApplicationResponse                           | namespace => xmlns="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2"           | 1..1          |               | 
+ApplicationResponse                           |                                                                                                   | 1..1          |               | 
 ... cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:invoice_response:3                                                   | 1..1          | Identifier    | 
 ... cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:invoice_response:3                                                    | 1..1          | Identifier    | 
 ... cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Invoice Response message. 
 ... cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Invoice Response issue date 
 ... cbc:IssueTime                             | 13:34:32                                                                                          | 0..1          | Time          | Invoice Response issue time
-... cbc:Note                                  | Aparte toelichting is al gezonden per email                                                       | 0..1          | Text          | General comments or instructions that are relevant to the response as a whole
-... cac:SenderParty                           |                                                                                                   | 1..1          |               | Afzender Invoice Response
+... cbc:Note                                  | Please contact Joop Jansen for any additional questions                                           | 0..1          | Text          | General comments or instructions that are relevant to the response as a whole
+... cac:SenderParty                           |                                                                                                   | 1..1          |               | Sender Party
 ...... cbc:EndpointID                         | 12345678                                                                                          | 1..1          | Identifier    | Identifies the sender party's electronic address
 ......... @schemeID                           | 0106                                                                                              | 1..1          |               | Electronic Address Scheme (f.e. 0106 or 0190)
-...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Afzender identificatie
-......... cbc:ID                              | 12345678                                                                                          | 1..1          | Identifier    | ID afzender
+...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
+......... cbc:ID                              | 12345678                                                                                          | 1..1          | Identifier    | Party identifier
 ............ @schemeID                        | 0106                                                                                              | 0..1          | Identifier    | Electronic Address Scheme (f.e. 0106 or 0190)
-...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | Afzender naam
-......... cbc:RegistrationName                | Haagse administratiegroep                                                                         | 1..1          | Text          | 
-...... cac:Contact                            |                                                                                                   | 0..1          |               | Contactinformatie
-......... cbc:Name                            | Joop Jansen                                                                                       | 0..1          | Text          | 
-......... cbc:Telephone                       | 0524 000000                                                                                       | 0..1          | Text          | 
-......... cbc:ElectronicMail                  | joop@administratie9999mail.nl                                                                     | 0..1          | Text          | 
-... cac:ReceiverParty                         |                                                                                                   | 1..1          |               | Ontvanger retourbericht
-...... cbc:EndpointID                         |                                                                                                   | 1..1          | Identifier    | Identificatie elektronisch adres ontvanger
-......... @schemeID                           | 0106                                                                                              | 1..1          | Identifier    | Identificatie elektronisch adres ontvanger SchemaID verplicht, bijvoorbeeld 0106 (KVK) of 0190 (OIN)
-...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Ontvanger identificatie
-......... cbc:ID                              |                                                                                                   | 1..1          |               | ID ontvanger
-............ @schemeID                        | 0106                                                                                              | 0..1          | Identifier    | SchemaID optioneel, bijvoorbeeld 0106 (KVK) of 0190 (OIN)
-...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | Afzender naam
-......... cbc:RegistrationName                | Coevorden handelsbedrijf                                                                          | 1..1          | Text          | 
-... cac:DocumentResponse                      |                                                                                                   | 1..1          |               | Reactie
+...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | 
+......... cbc:RegistrationName                | Haagse administratiegroep                                                                         | 1..1          | Text          | Sender party name
+...... cac:Contact                            |                                                                                                   | 0..1          |               | Contact information
+......... cbc:Name                            | Joop Jansen                                                                                       | 0..1          | Text          | Party contact point name
+......... cbc:Telephone                       | 0524 000000                                                                                       | 0..1          | Text          | Party contact point telephone
+......... cbc:ElectronicMail                  | joop@administratie9999mail.nl                                                                     | 0..1          | Text          | Party contact point email
+... cac:ReceiverParty                         |                                                                                                   | 1..1          |               | Receiver party
+...... cbc:EndpointID                         |                                                                                                   | 1..1          | Identifier    | Reciever party electronic addressr
+......... @schemeID                           | 0106                                                                                              | 1..1          | Identifier    | Electronic Address Scheme (f.e. 0106 or 0190)
+...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
+......... cbc:ID                              |                                                                                                   | 1..1          |               | Reciever party identifier
+............ @schemeID                        | 0106                                                                                              | 0..1          | Identifier    | Electronic Address Scheme (f.e. 0106 or 0190)
+...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | 
+......... cbc:RegistrationName                | Coevorden handelsbedrijf                                                                          | 1..1          | Text          | Receiver party name
+... cac:DocumentResponse                      |                                                                                                   | 1..1          |               | Document response
 ...... cac:Response                           |                                                                                                   | 1..1          |               | 
-......... cbc:ResponseCode                    | AP                                                                                                | 1..1          | Code          | Invoice status code (UNCL4343 Subset), zie toelichting
-......... cbc:EffectiveDate                   | 10-2-2021                                                                                         | 0..1          | Date          | Datum waarop status actief is geworden
-...... cac:Status                             |                                                                                                   | 0..N          |               | Verduidelijking is verplicht wanneer de status code UQ-Under query, RE - Rejected en CA - Conditionally Accepted is. (zie ResponseCode hiervoor). Verduidelijking kan worden gegeven in de vorm van een code, een beschrijving of beide. Als beide worden gebruikt, moeten ze dezelfde verduidelijking aangeven. Meerdere codes zijn mogelijk.
-......... cbc:StatusReasonCode                | OA                                                                                                | 0..1          |               | 
-............ @listID                          | OPStatusAction                                                                                    | 1..1          | Code          | Een code is mogelijk uit een tweetal codelijsten: 1. Status Clarification Reason (OpenPEPPOL), 2. Status Clarification Action (OpenPEPPOL).
-......... cbc:StatusReason                    |                                                                                                   | 0..1          | Text          | 
-...... cac:Condition                          |                                                                                                   | 0..N          |               | 
-......... cbc:AttributeID                     |                                                                                                   | 1..1          | Code          | Vrij op te geven code. Bijv. BT-48 Buyer text number 
-......... cbc:Description                     |                                                                                                   | 0..1          | Text          | Vrij op te geven tekst
-...... cac:DocumentReference                  |                                                                                                   | 1..1          |               | Referentie onderliggende document. Ingeval retourbericht factuur is dit minimaal het factuurnummer.
-......... cbc:ID                              | 2021932                                                                                           | 1..1          | Identifier    | Factuurnummer
-......... cbc:IssueDate                       | 9-2-2021                                                                                          | 0..1          | Date          | De datum waarop de factuur waarnaar wordt verwezen, is uitgegeven. Deze datum mag maar één keer opgegeven worden.
-......... cbc:DocumentTypeCode                | 380                                                                                               | 1..1          | Code          | Documenttype overeenkomstig UNCL1001. Zal in de praktijk bij een in Nederland uitgegeven factuur altijd 380 zijn. Een attentiepunt is of en hoe om te gaan met facturen uit het buitenland die bijvoorbeeld type 381 (Creditnota) hebben.
-... cac:IssuerParty                           |                                                                                                   | 0..1          |               | Verkoper
-...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Identificatie van de verkoper
-......... cbc:ID                              |                                                                                                   | 1..1          |               | ID van de verkoper
-............ @schemeID                        | 0106                                                                                              | 0..1          |               | SchemaID optioneel, bijvoorbeeld 0106 (KVK) of 0190 (OIN)
-...... cac:PartyName                          |                                                                                                   | 1..1          |               | Naam van de verkoper
-......... cbc:Name                            | Coevorden handelsbedrijf                                                                          | 0..1          | Text          | Naam
-... cac:RecipientParty                        |                                                                                                   | 0..1          |               | Koper
-...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Identificatie van de koper
-......... cbc:ID                              |                                                                                                   | 1..1          | Identifier    | ID koper
-............ @schemeID                        | 0106                                                                                              | 0..1          |               | SchemaID optioneel, bijvoorbeeld 0106 (KVK) of 0190 (OIN)
-...... cac:PartyName                          |                                                                                                   | 1..1          |               | Naam van de koper
-......... cbc:Name                            | Haagse administratiegroep                                                                         | 1..1          | Text          | Naam
+......... cbc:ResponseCode                    | AP                                                                                                | 1..1          | Code          | Invoice status (UNCL4343)
+......... cbc:EffectiveDate                   | 10-2-2021                                                                                         | 0..1          | Date          | Status date
+...... cac:Status                             |                                                                                                   | 0..N          |               | Clarification information, mandatory when invoice status is UQ-Under query, RE - Rejected or CA - Conditionally Accepted.
+......... cbc:StatusReasonCode                | OA                                                                                                | 0..1          | Identifier    | Clarification code
+............ @listID                          | OPStatusAction or OPStatusReason                                                                  | 1..1          | Code          | List identifier
+......... cbc:StatusReason                    |                                                                                                   | 0..1          | Text          | Clarification description
+...... cac:Condition                          |                                                                                                   | 0..N          |               | Condition
+......... cbc:AttributeID                     |                                                                                                   | 1..1          | Code          | Detail type code 
+......... cbc:Description                     |                                                                                                   | 0..1          | Text          | Detail value
+...... cac:DocumentReference                  |                                                                                                   | 1..1          |               | Document reference
+......... cbc:ID                              | 2021932                                                                                           | 1..1          | Identifier    | Invoice identifier
+......... cbc:IssueDate                       | 9-2-2021                                                                                          | 0..1          | Date          | Invoice issue date
+......... cbc:DocumentTypeCode                | 380 = Commercial invoice or 381 = Credit note or 384 = Corrected invoice                          | 1..1          | Code          | Identifier type code
+... cac:IssuerParty                           |                                                                                                   | 0..1          |               | Seller party information
+...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
+......... cbc:ID                              |                                                                                                   | 1..1          |               | Seller party identifier
+............ @schemeID                        | 0106                                                                                              | 0..1          |               | Electronic Address Scheme (f.e. 0106 or 0190)
+...... cac:PartyName                          |                                                                                                   | 1..1          |               | Party name information
+......... cbc:Name                            | Coevorden handelsbedrijf                                                                          | 0..1          | Text          | Seller party name
+... cac:RecipientParty                        |                                                                                                   | 0..1          |               | Buyer party information
+...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
+......... cbc:ID                              |                                                                                                   | 1..1          | Identifier    | Buyer party identifier
+............ @schemeID                        | 0106                                                                                              | 0..1          |               | Electronic Address Scheme (f.e. 0106 or 0190)
+...... cac:PartyName                          |                                                                                                   | 1..1          |               | Party name information
+......... cbc:Name                            | Haagse administratiegroep                                                                         | 1..1          | Text          | Buyer party name
 
 
 
