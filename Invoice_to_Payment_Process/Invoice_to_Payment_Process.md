@@ -61,18 +61,6 @@ graph LR
 	D-->G(Send Credit note)
 	G-->H((End))
 ```
-```mermaid
-graph LR
-	A((Start))-->B(Receive invoice or credit note)
-	B-->C{Choice}
-	C-->D(Process Credit note)
-	C-->E(Process Invoice)
-	D-->F{Ok?}
-	E-->F
-	F-->G(Contact the supplier)
-	G-->H((End))
-	F-->I((End))
-```
 
 
 ### 2.2 Transport acknowledgement
@@ -99,6 +87,19 @@ An example is that a technically correct invoice may be received but the receive
 The key nature of these responses is that they report a business decision that is made on the message instance received.
 We want to state clearly that any business requirements that are applied on top of the standard document business rules must have been explicitly communicated by the customer to the supplier.
 This can be done by mentioning the specific requirements in a tender, in the purchase order agreement or on a publicly known webpage (for example basisfactuur Rijk).
+
+```mermaid
+graph LR
+	A((Start))-->B(Receive invoice or credit note)
+	B-->C{Choice}
+	C-->D(Process Invoice)
+	C-->E(Process Credit note)
+	D-->F{Ok?}
+	E-->F
+	F-->G(Contact the supplier)
+	G-->H((End))
+	F-->I((End))
+```
 
 ## 3 Invoice scenarios
 
