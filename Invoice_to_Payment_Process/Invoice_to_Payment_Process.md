@@ -96,9 +96,9 @@ graph LR
 	C-->E(Process Credit note)
 	D-->F{Ok?}
 	E-->F
-	F-->G(Contact the supplier)
+	F-->|No|G(Contact the supplier)
 	G-->H((End))
-	F-->I((End))
+	F-->|Yes|I((End))
 ```
 
 ## 3 Invoice scenarios
