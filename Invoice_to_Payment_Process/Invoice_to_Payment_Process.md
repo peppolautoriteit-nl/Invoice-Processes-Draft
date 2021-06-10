@@ -3,44 +3,53 @@
 ## 1 Introduction and briefing
 
 The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in Q3 2021. 
-This document describes the process and technical implications of the implementation of the Message Level Response and Invoice Response.
+This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
+The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
 
 ## 2 Process description
 
+1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the buyer. The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
+2.	The serviceprovider of the supplier (corner 2) recognizes the customer (corner 4) and customer’s serviceprovider (corner 3) by resolving the identifier within the invoice document.
+3.	The serviceprovider of the supplier might need to transform the invoice to a registered Invoice document type before validating the invoice according to agreed specifications.
+4.	The serviceprovider of the supplier wraps the validated invoice in an envelope and sends the message on behalf of the supplier to the serviceprovider of the customer by using the Peppol mechanism (including a signed MDN process).
+5.	The serviceprovider of the customer acknowledges the receival of the message by sending a Transport acknowledgement to the serviceprovider of the supplier.
+6.	The serviceprovider of the customer unwraps the message and acknowledges or rejects the invoice based on syntactical and semantical rules by sending a Message Level Response to the serviceprovider of the supplier.
+7.	The serviceprovider of the customer might transform a validated invoice to the invoice document type that can be processed by the invoice control system of the customer before sending it to the customer through the implemented secure channel.
+8.	The customer receives the invoice and processes it in the invoice control system leading to one of the following results:
+    * The customer fully approves the invoice, posts it in the accounting system and passes it on to be paid.
+    * The customer completely rejects the invoice and requests a credit note.
+    * The customer disputes parts of the invoice and requests a credit note and a new invoice.
+
+9.	The customer sends an invoice response document to the serviceprovider of the customer addressed to the Peppol identifier of the supplier, provided as endpointID.
+10.	The serviceprovider of the customer recognizes the supplier and supplier’s serviceprovider by resolving the identifier within the invoice response document.
+11.	The serviceprovider of the customer wraps the invoice response in an envelope and sends the message on behalf of the customer to the serviceprovider of the supplier.
+12.	The serviceprovider of the supplier unwraps the message and forwards the invoice response to the supplier.
+
+The diagram below shows the basic invoicing process with the use of this PEPPOL BIS profile. 
+This process assumes that both the invoice and the credit note are exchanged electronically.
 
 ```mermaid
 sequenceDiagram
     Supplier ->> Corner 2: Invoice
     Corner 2 ->> Corner 3: Invoice
+    Corner 3 ->> Corner 2: Transport Acknowledgement
         Note right of Corner 3: Corner 3 checks syntax and semantics.
     Corner 3 ->> Corner 2: Message Level Response
     Corner 3 ->> Customer: Invoice
+        Note right of Customer: Customer checks the invoice by validating against the business rules.
     Customer ->> Corner 3: Invoice Response
     Corner 3 ->> Corner 2: Invoice Response
     Corner 2 ->> Supplier: Invoice Response
-        Note right of Customer: Customer checks the invoice by validating against the business rules.
+
 ```
 
 ### 2.1 Invoice
+
 The invoicing process includes issuing and sending the invoice and the credit note from the supplier to the customer and the reception and handling at the customer’s site.
-
-* A supplier issues and sends an invoice to a customer. The invoice refers to one order and a specification of delivered goods and services.
-  * An invoice may also refer to a contract or a frame agreement. 
-  * The invoice may specify articles (goods and services) with article number or article description.
-
-* A serviceprovider (corner 2) validates the invoice, wraps it in an envelope and sends the message on behalf of the supplier to the serviceprovider (corner 3) of the customer. 
-* Corner 3 acknowledges the receival of the message by sending a Transport acknowledgement to corner 2.
-* Corner 3 unwraps the message and validates the invoice.
-* Corner 3 acknowledges or rejects the invoice based on syntactical and semantical rules.
-
-* The customer receives the invoice and processes it in the invoice control system leading to one of the following results:
-   * The customer fully approves the invoice, posts it in the accounting system and passes it on to be paid.
-   * The customer completely rejects the invoice, contacts the supplier and requests a credit note.
-   * The customer disputes parts of the invoice, contacts the supplier and requests a credit note and a new invoice.
-
-The diagram below shows the basic invoicing process with the use of this PEPPOL BIS profile. 
-This process assumes that both the invoice and the credit note are exchanged electronically.
+*	The invoice refers to one order and a specification of delivered goods and services.
+*	An invoice may also refer to a contract or a frame agreement.
+*   The invoice may specify articles (goods and services) with article number or article description.
 
 ```mermaid
 graph LR
@@ -76,7 +85,7 @@ The reason Transport acknowledgements are explicitly mentioned in this document 
 
 > For more information about how to properly use transport acknowledgements see document "Best current practices"
 
-### 2.3 Message Level Responses
+### 2.3 Message Level Response
 When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic. 
 The outcome of these validations should be reported to a relevant party up-line, informing him whether the validation was successful or not as well as giving some details. 
 An example could be that an invoice message that is received is rejected because it is missing a closing tag (syntax error) or because its amounts don’t add up according to what is specified in the relevant syntax specification. 
@@ -91,23 +100,39 @@ The key nature of these responses is that they report a business decision that i
 We want to state clearly that any business requirements that are applied on top of the standard document business rules must have been explicitly communicated by the customer to the supplier.
 This can be done by mentioning the specific requirements in a tender, in the purchase order agreement or on a publicly known webpage (for example basisfactuur Rijk).
 
-
-## 3 Usage
-
+## 3 Invoice scenarios
 
 
-## 4 Message definitions
+### 3.1 Accepting invoices
+
+### 3.2 Rejecting invoices
+
+#### 3.2.1 Syntax incorrect and/or schematron error
+
+Transport acknowledgement > OK
+Message Level Response > ResponseCode = RE
+Invoice Response > Not applicable
+
+#### 3.2.2 Unable to deliver invoice to customer
+
+#### 3.2.3 Missing schemeID
+
+## 4 Usage
+
+
+
+## 5 Message definitions
 
 The latest version of the syntax of the BIS3 Message Level Response and Invoice Response can be found on the website of OpenPeppol:
-https://docs.peppol.eu/poacc/upgrade-3/syntax/MLR/tree/
-https://docs.peppol.eu/poacc/upgrade-3/syntax/InvoiceResponse/tree/
+*  https://docs.peppol.eu/poacc/upgrade-3/syntax/MLR/tree/
+*  https://docs.peppol.eu/poacc/upgrade-3/syntax/InvoiceResponse/tree/
 
-In the following paragraphs you will find a detailed description the syntax and semantics for
+In the following paragraphs you will find a detailed description of the syntax and semantics that apply at the time of writing this document.
 
-### 4.1 Message Level Response 3.0
+### 5.1 Message Level Response 3.0
 
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
----                                           | ---                                                                                               | ---           | ---           | ---
+----                                          | ---                                                                                               | ---           | ---           | ---
 xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
 ApplicationResponse                           | namespace =>                                                                                      | 1..1          |               | 
 ... cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:mlr:3                                                                | 1..1          | Identifier    | 
@@ -139,7 +164,7 @@ ApplicationResponse                           | namespace =>                    
 ............... cbc:StatusReasonCode          | "BV = fatal  or  BW = warning  or  SV = Syntax violation                                          | 1..1          |               | Issue type coded
 
 
-### 4.2 Invoice Response transaction 3.1
+### 5.2 Invoice Response transaction 3.1
 
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
@@ -200,24 +225,6 @@ ApplicationResponse                           | namespace => xmlns="urn:oasis:na
 ......... cbc:Name                            | Haagse administratiegroep                                                                         | 1..1          | Text          | Naam
 
 
-
-## 5 Invoice scenarios
-
-
-### 5.1 Accepting invoices
-
-
-### 5.2 Rejecting invoices
-
-#### 5.2.1 Syntax incorrect and/or schematron error
-
-Transport acknowledgement > OK
-Message Level Response > ResponseCode = RE
-Invoice Response > Not applicable
-
-#### 5.2.2 Unable to deliver invoice to customer
-
-#### 5.2.3 Missing schemeID
 
 ## 6 Remarks
 
