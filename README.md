@@ -51,30 +51,30 @@ The final result of this process will be submitted to the Service Provider commu
 
 Create a Github account and login.
 
-![alt text](/image1 "Create account and/or login")
+![alt text](/images/login.png "Create account and/or login")
 
 Find the repository that contains the project that you want to work on.
 
-![alt text](/image2 "Repositories")
+![alt text](/images/repositories.png "Repositories")
 
 A repository can contains files and folders. A folder will most likely contain more files.
 
-![alt text](/image3 "Files and folders")
+![alt text](/images/folders.png "Files and folders")
 
 Click on a filename to open the file. Click the Edit icon to start editing the file.
 
-![alt text](/image4 "File view")
+![alt text](/images/file.png "File view")
 
 If you do not have your own copy of the repository yet, Github will inform you that it has created a "Fork".
 A fork means you have your private copy of the project that you want to work on.
 
-![alt text](/image5 "Fork")
+![alt text](/images/fork.png "Fork")
 
 Now you can edit the file. If you are working on a .MD (markdown) file you can use the following webpage to help you with creating specific formatting:
 [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 After you have made your changes in your private copy of the project, you can push your changes to the repository of the Netherlands Peppol Authority.
 Give your change request a name and some explanatory text before clicking the "Propose changes" button.
 
-![alt text](/image6 "Push changes")
+![alt text](/images/changes.png "Push changes")
 
 
