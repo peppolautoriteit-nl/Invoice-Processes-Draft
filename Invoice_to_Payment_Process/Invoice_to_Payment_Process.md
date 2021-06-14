@@ -256,9 +256,5 @@ ApplicationResponse                           |                                 
 
 ## 6 Remarks
 
-Remark                                        | Solved
----                                           | ---            
-MLR and Invoice Response do not cover the case where communication between corner 3 and corner 4 fails (persistently). F.e. after 5 retries still no successfull delivery of message. | X
-How to deal with duplicate invoice ID's in invoice response? | X
-Make sending of MLR mandatory, make support of invoice response mandatory | X
+Limitations and other remarks that are relevant for this process
 
