@@ -10,14 +10,15 @@ to the NPA Technical Working Group.
 
 ## Summary of the proposal
 
-This proposal describes the NPA initiative to roll-out the Peppol Invoice Response Message in the Dutch Peppol Community. This proposal includes:
+This proposal describes the NPA initiative to roll-out the Peppol Invoice Response message in the Dutch Peppol Community. This proposal includes:
 
 * The use of the Peppol BIS Invoice response 3.1
 * Staged rollout starting Q3 2021
 * Mandatory support for the Invoice Response message by sending and receiving serviceproviders.
 * Optional support for the Invoice Response message by sending and receiving endusers.
-
-See [Proposed Solution for Invoice Response Messages](../Invoice_Response_Message/Invoice_Response_Message.md)
+* An investigation by the technical workgroup of the NPA assessing the technical impact of the support for Invoice Respones.
+* An advise in the form of a document on how to correctly implement the Invoice Response.
+* The endresult of the advise can be found here: [Implementation Peppol invoice to payment process](../Invoice_to_Payment_Process/Invoice_to_Payment_Process.md)
 
 ## Relation to other status messages
 
