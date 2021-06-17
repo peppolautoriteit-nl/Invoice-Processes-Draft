@@ -10,7 +10,7 @@ to the NPA Technical Working Group.
 
 ## Summary of the proposal
 
-This proposal describes the NPA initiative to roll-out the Peppol Message Level Response and Invoice Response Message in the Dutch Peppol Community. This proposal includes:
+This proposal describes the NPA initiative to roll-out the Peppol Invoice Response Message in the Dutch Peppol Community. This proposal includes:
 
 * The use of the Peppol BIS Invoice response 3.1
 * Staged rollout starting Q3 2021
@@ -40,24 +40,26 @@ This document is mainly about the Invoice Response Message. However, other statu
 
 In order to assess the feasibility and viability of the IR proposal, the following aspects are evaluated:
 
-* **Collaborative domain**: yes, the initiative stimulates the interoperability of status messages between Access Points. The document does not intervene with the competitive domain, e.g. the mechanisms implemented by parties to generate or process an IRM.
-* **Contribution to NPA objective**: the use of IRM will increase the relevance of the PEPPOL network for Access Points (goal 1), potentially leading to more AP members. In addition, the IRM will increase relevance for end-users, leading to increased number of PEPPOL Trading Entities (goal 2).
-* **Value add for end-users**: End-users will receive feedback about their invoices in their ERP systems. They are better able to manage their invoicing process from their own ERP systems.
-* **Functional value for participants**: Participants can offer an additional process to their customers for managing their ‘invoice resolution’ process in the ERP system rather than out-of-bound via email.
-* **Implementation impact**: Participants need to support an additional document type (ApplicationResponse). All suppliers must now be registered in the SML/SMP.
-* **Impact on the scheme**: Limited (existing PEPPOL message type). Governance policy must be added to mandate the use of the IRM. Rules must be added to govern the roles and responsibilities of the APs.
-* **Dependency on other factors**: None.
+* **Collaborative domain**: yes, the initiative stimulates the interoperability of status messages between Serviceproviders. The document does not intervene with the competitive domain, e.g. the mechanisms implemented by parties to generate or process an Invoice Response.
+* **Contribution to NPA objective**: The adoption of the Invoice Response message by Serviceproviders (and software vendors) will increase the relevance of the Peppol network for Endusers, leading to increased number of Peppol Endusers (goal 1).
+* **Value add for Endusers**: Endusers will receive feedback about their invoices in their ERP systems. They are better able to manage their invoicing process from their own ERP systems.
+* **Functional value for Serviceproviders**: Serviceproviders can offer an additional process to their customers for managing their ‘invoice resolution’ process in the ERP system rather than out-of-bound via email.
+* **Implementation impact**: Serviceproviders need to support an additional document type (ApplicationResponse). Suppliers must be registered in the SML/SMP in order to receive the Invoice Response.
+* **Impact on the scheme**: Limited (existing Peppol message type). Governance policy must be added to mandate the use of the Invoice Response. Rules must be added to govern the roles and responsibilities of the Serviceproviders.
+* **Dependency on other factors**: The implementation of invoice status feedback within ERP systems and the communication of this feedback from the ERP system to Serviceproviders might take a long time for ERP vendors that are not within the Peppol community. A real adoption of the functionality might therefor take a long time.
 
 ## Proposed implementation path
 
-The NPa proposes the following implementation path:
+The NPA proposes the following implementation path:
 
-1. Start with the implementation of the Acknowledgement, Accepted, Rejected and optionally Paid.
-2. Make the support for these states mandatory for PEPPOL Access Points.
+1. Phase 1: implementation of the Invoice Response states "Message acknowledgement", "Rejected", "Accepted"
+2. Make the support of Phase 1 states mandatory for Serviceproviders.
+3. Phase 2: implementation of the Invoice Response states "In Process", "Under query", "Conditionally accepted", "Partially Paid", "Fully Paid"
+4. Make the support of Phase 2 states mandatory for Serviceproviders.
 
 ## The question to the Technical Working Group is:
 
-1. Assess the technical impact of supporting the mentioned mandatory Invoice States on the implementation
-2. Describe how the Invoice Response Message is to be implemented by Dutch Access Points
-3. Advise on a pragmatic technical proposal for a phased roll-out of the IRM in the Dutch market, with   as an end-result a mandatory implementation for both sending and receiving AP's. This proposal should at least contains: which statusses are supported for what actors.
-4. Describe a workable process for the scenario where a Supplier uses different AP’s for sending and receiving
+1. Assess the technical impact of supporting the mentioned mandatory Invoice States
+2. Describe how the Invoice Response message is to be implemented by Dutch Serviceproviders
+3. Advise on a pragmatic technical proposal for a phased roll-out of the Invoice Response in the Dutch market, with the end-result being a mandatory implementation for both sending and receiving Serviceproviders. This proposal should at least contain: which statusses are supported for which actors.
+4. Describe a workable process for the scenario where a Supplier uses different Serviceproviders for sending and receiving.
