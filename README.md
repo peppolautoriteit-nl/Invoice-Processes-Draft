@@ -22,7 +22,6 @@ Document | Description |
 ---------|-------------|
 [Briefing](Briefing/Briefing.md) | A one-pager describing why response messages are important, and questions for the working group |
 [Invoice to Payment Process](Invoice_to_Payment_Process/Invoice_to_Payment_Process.md)| A full descriptive document of the potential scenarios in the invoicing process, and when to use which response document |
-[Proposed Solution for Invoice Response Messages](Invoice_Response_Message/Invoice_Response_Message.md) | Specific information on the form and contents of the Invoice Response Message (IRM)
 
 ## The Mermaid extension for markdown/github
 
