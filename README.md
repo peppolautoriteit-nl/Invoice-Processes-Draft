@@ -71,6 +71,7 @@ A fork means you have your private copy of the project that you want to work on.
 
 Now you can edit the file. If you are working on a .MD (markdown) file you can use the following webpage to help you with creating specific formatting:
 [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
 After you have made your changes in your private copy of the project, you can push your changes to the repository of the Netherlands Peppol Authority.
 Give your change request a name and some explanatory text before clicking the "Propose changes" button.
 
