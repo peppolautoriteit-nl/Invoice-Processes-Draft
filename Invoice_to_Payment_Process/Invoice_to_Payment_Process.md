@@ -2,7 +2,11 @@
 
 ## 1 Introduction
 
-The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in Q3 2021. 
+A common concern expressed by sellers and their service providers is the lack of confirmation on whether the buyer has accepted or rejected the invoice. This could result in sellers contacting the buyer out-of-band or incorrectly re-sending invoices.
+Additionally, there is a lack of understanding of the different options or system triggers for automated invoice status communication via Peppol, i.e. using the Peppol Invoice Response message.
+
+Both national and international end users as well as service providers express a broad support for the implementation of status messages, with most feedback indicating that it is vital to the success of the network.
+In response to this The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in  2021. 
 This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
 The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
@@ -48,7 +52,7 @@ sequenceDiagram
 The invoicing process includes issuing and sending the invoice and the credit note from the supplier to the customer and the reception and handling at the customer’s site.
 *	The invoice refers to one order and a specification of delivered goods and services.
 *	An invoice may also refer to a contract or a frame agreement.
-*   The invoice may specify articles (goods and services) with article number or article description.
+*   	The invoice may specify articles (goods and services) with article number or article description.
 
 ```mermaid
 graph LR
@@ -70,7 +74,7 @@ These response messages are commonly called “acks”.
 Thus, unlike a Message Level Response and Invoice Response, a Transport Acknowledgement is not a document that is exchanged over the network.
 The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefor also of the (invoicing) process.
 
-> For more information about how to properly use transport acknowledgements see document "Best current practices"
+> For more information about how to properly use transport acknowledgements refer to (Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/) and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
 ### 2.3 Message Level Response
 When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic. 
@@ -100,28 +104,13 @@ graph LR
 	F-->|Yes|I((End))
 ```
 
-## 3 Invoice scenarios
+## 3 Best practices
 
+### 3.1 Message Level Response
 
-### 3.1 Accepting invoices
+### 3.2 Invoice Response 
 
-### 3.2 Rejecting invoices
-
-#### 3.2.1 Syntax incorrect and/or schematron error
-
-Transport acknowledgement > OK
-Message Level Response > ResponseCode = RE
-Invoice Response > Not applicable
-
-#### 3.2.2 Unable to deliver invoice to customer
-
-#### 3.2.3 Missing schemeID
-
-## 4 Usage
-
-### 4.1 Message Level Response
-
-### 4.2 Invoice Response
+#### 3.2.1 Scope
 
 The scope of the Invoice Response is:
 
@@ -131,13 +120,26 @@ The scope of the Invoice Response is:
 4. The business meaning of the invoice status remains the same through the entire chain (e.g. the definition of the status ‘Accepted’ is the same in the entire chain).
 5. An Invoice may result in multiple Invoice Response messages.
 
-#### 4.2.1 Status codes
+#### 3.2.2 Timeframes for response
+
+Timely and clear communication of invoice status will assist sellers to improve their data quality and reduce future rejections. This is especially important for newly on-boarded suppliers.
+
+It is a requirement by the Peppol BIS standard that C1 should receive a response within 3 working days. 
+From an automation perspective 3 workings days is quite a long time. Therefor the suggested best practices are:
+
+1.	Where C4 has implemented automated processing, it is best practice to send a response / C4 confirmation of receipt within 1 hour, i.e. AB- acknowledgement or a more advanced processing status.  
+2.	During C4 processing (manual or automated), when invoice status changes, the change of status should be communicated to C1 within 1 hour or as soon as applicable. E.g. the status changes from AB- Acknowledgement to RE- Rejected. 
+
+
+#### 3.2.3 Status codes
 
 The PEPPOL BIS Invoice Response supports a number of optional and mandatory status codes. 
 In order to have a proper understanding of the status of invoices in the process there is a strict order in which the status codes need to be used. 
 The order is shown in the table below. 
-Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
+
+> Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
 Also the ERP vendor might not use the statusses in the same orders as defined here.
+
 
 | Status Code   | UNECE name                | BIS usage                                                                                                                                                                                                                                                                         | Clarification on requirements | Mandatory | Final |
 |--             |----                       |----------                                                                                                                                                                                                                                                                         |--                             |--         |--     |
@@ -149,7 +151,11 @@ Also the ERP vendor might not use the statusses in the same orders as defined he
 | AP            | Accepted                  | Status is used only when the Buyer has given a final approval of the invoice and the next step is payment                                                                                                                                                                         | NO                            | YES       | YES   |
 | PD            | Fully Paid                | Status is used only when the Buyer has initiated the payment of the invoice.                                                                                                                                                                                                      | NO                            | NO        | NO    |
 
-## 5 Message definitions
+Within the required response timeframe, C4 can choose the most appropriate status code for the first response - i.e. it is not mandatory to use “AB” as the first response. For example, if C4 has completed processing an invoice within one hour with no issues found, C4 can send only one invoice response with a status code of “AP – Accepted”. If C4 has identified an issue during processing, which requires investigation and takes longer to process, C4 may choose to send “AB” to confirm invoice receipt; or use “UQ” to notify C1 that C4 requires additional information and may contact the supplier. 
+
+C4 should provide clear and meaningful reasons to assist C1 to take action. This can be done using a combination of Peppol-defined status reason and action codes and free text fields. Further details about specific invoice scenarios are provided in section 5. 
+
+## 4 Message definitions
 
 The latest version of the syntax of the BIS3 Message Level Response and Invoice Response can be found on the website of OpenPeppol:
 *  https://docs.peppol.eu/poacc/upgrade-3/syntax/MLR/tree/
@@ -157,7 +163,7 @@ The latest version of the syntax of the BIS3 Message Level Response and Invoice 
 
 In the following sections you will find a detailed description of the syntax and semantics that apply at the time of writing this document.
 
-### 5.1 Message Level Response 3.0
+### 4.1 Message Level Response 3.0
 
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
 ----                                          | ---                                                                                               | ---           | ---           | ---
@@ -192,7 +198,7 @@ ApplicationResponse                           |                                 
 ............... cbc:StatusReasonCode          | "BV = fatal  or  BW = warning  or  SV = Syntax violation                                          | 1..1          |               | Issue type coded
 
 
-### 5.2 Invoice Response transaction 3.1
+### 4.2 Invoice Response transaction 3.1
 
 Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
@@ -251,6 +257,52 @@ ApplicationResponse                           |                                 
 ............ @schemeID                        | 0106                                                                                              | 0..1          |               | Electronic Address Scheme (f.e. 0106 or 0190)
 ...... cac:PartyName                          |                                                                                                   | 1..1          |               | Party name information
 ......... cbc:Name                            | Haagse administratiegroep                                                                         | 1..1          | Text          | Buyer party name
+
+## 5 Invoice scenarios
+
+This section describes a few common business scenarios and provides UBL examples to illustrate how C3 and C4 can communicate invoice status with C2 and C1 via Peppol.
+
+### 5.1 Accepting invoices
+
+Invoice received successfully by customer and invoice has been successfully processed and approved for payment.
+
+Message                			| Status	| Use
+---                    			| ---     	|
+Transport Acknowledgement       	| OK		| Mandatory
+Message Level Response 			| AB		| Optional
+Message Level Response			| AP		| Mandatory
+Invoice Response 			| AB 		| Optional
+Invoice Response			| AP		| Mandatory
+
+Example Invoice Response Content
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">NON</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
+### 5.2 Rejecting invoices
+
+#### 5.2.1 Syntax incorrect and/or schematron error
+
+Supplier sends an invoice where the XML is malformed or where the XML contains FATAL schematron errors
+
+Message                			| Status	| Use
+---                    			| ---     	|
+Transport Acknowledgement       	| OK		| Mandatory
+Message Level Response 			| AB		| Optional
+Message Level Response			| RE		| Mandatory
+
+#### 5.2.2 Unable to deliver invoice to customer
+
+#### 5.2.3 Invoice fails 3-way matching
+
+A common scenario is that the purchase order number is invalid or cannot be matched to the vendor. Depending on internal processes, C4 may decide to 
+1.	Reject the invoice
+2.	Follow up with C1 out of channel (UQ). 
 
 
 
