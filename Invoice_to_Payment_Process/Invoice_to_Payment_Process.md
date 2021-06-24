@@ -260,7 +260,7 @@ ApplicationResponse                           |                                 
 
 ## 5 Invoice scenarios
 
-This section describes a few common business scenarios and provides UBL examples to illustrate how C3 and C4 can communicate invoice status with C2 and C1 via Peppol.
+This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
 ### 5.1 Accepting invoices
 
