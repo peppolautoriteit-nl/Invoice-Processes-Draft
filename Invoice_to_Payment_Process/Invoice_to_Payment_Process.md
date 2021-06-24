@@ -428,6 +428,21 @@ Example Invoice Response Content
 #### 5.2.4 Bank account details not matching
 
 
+#### 5.2.5 Supplier uknown in customer master data
+
+
+#### 5.2.6 Payment terms or invoice due date not as expected
+
+
+#### 5.2.7 Delivery of goods
+
+
+#### 5.2.8 Duplicate invoice
+
+
+#### 5.2.9 VAT incorrect
+
+
 
 ## 6 Remarks
 
