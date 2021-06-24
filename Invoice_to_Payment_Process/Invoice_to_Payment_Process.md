@@ -52,7 +52,7 @@ sequenceDiagram
 The invoicing process includes issuing and sending the invoice and the credit note from the supplier to the customer and the reception and handling at the customer’s site.
 *	The invoice refers to one order and a specification of delivered goods and services.
 *	An invoice may also refer to a contract or a frame agreement.
-*   	The invoice may specify articles (goods and services) with article number or article description.
+*	The invoice may specify articles (goods and services) with article number or article description.
 
 ```mermaid
 graph LR
@@ -74,7 +74,7 @@ These response messages are commonly called “acks”.
 Thus, unlike a Message Level Response and Invoice Response, a Transport Acknowledgement is not a document that is exchanged over the network.
 The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefor also of the (invoicing) process.
 
-> For more information about how to properly use transport acknowledgements refer to (Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/) and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
+> For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/] and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
 ### 2.3 Message Level Response
 When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic. 
@@ -114,7 +114,7 @@ graph LR
 
 The scope of the Invoice Response is:
 
-1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the Peppol business documentation https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/). The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
+1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the [Peppol business documentation|https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/]. The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
 2. The Invoice Response Message is sent by the customer AP to the supplier AP conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to an invoice message sent by the supplier AP.
 3. The actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems. 
 4. The business meaning of the invoice status remains the same through the entire chain (e.g. the definition of the status ‘Accepted’ is the same in the entire chain).
@@ -130,15 +130,11 @@ From an automation perspective 3 workings days is quite a long time. Therefor th
 1.	Where C4 has implemented automated processing, it is best practice to send a response / C4 confirmation of receipt within 1 hour, i.e. AB- acknowledgement or a more advanced processing status.  
 2.	During C4 processing (manual or automated), when invoice status changes, the change of status should be communicated to C1 within 1 hour or as soon as applicable. E.g. the status changes from AB- Acknowledgement to RE- Rejected. 
 
-
 #### 3.2.3 Status codes
 
 The PEPPOL BIS Invoice Response supports a number of optional and mandatory status codes. 
 In order to have a proper understanding of the status of invoices in the process there is a strict order in which the status codes need to be used. 
 The order is shown in the table below. 
-
-> Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
-Also the ERP vendor might not use the statusses in the same orders as defined here.
 
 
 | Status Code   | UNECE name                | BIS usage                                                                                                                                                                                                                                                                         | Clarification on requirements | Mandatory | Final |
@@ -150,6 +146,10 @@ Also the ERP vendor might not use the statusses in the same orders as defined he
 | RE            | Rejected                  | Status is used only when the Buyer will not process the referenced Invoice any further.Buyer is rejecting this invoice but not necessarily the commercial transaction. Although it can be used also for rejection for commercial reasons (invoice not corresponding to delivery). | YES                           | YES       | YES   |
 | AP            | Accepted                  | Status is used only when the Buyer has given a final approval of the invoice and the next step is payment                                                                                                                                                                         | NO                            | YES       | YES   |
 | PD            | Fully Paid                | Status is used only when the Buyer has initiated the payment of the invoice.                                                                                                                                                                                                      | NO                            | NO        | NO    |
+
+
+> Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
+Also the ERP vendor might not use the statusses in the same orders as defined here.
 
 Within the required response timeframe, C4 can choose the most appropriate status code for the first response - i.e. it is not mandatory to use “AB” as the first response. For example, if C4 has completed processing an invoice within one hour with no issues found, C4 can send only one invoice response with a status code of “AP – Accepted”. If C4 has identified an issue during processing, which requires investigation and takes longer to process, C4 may choose to send “AB” to confirm invoice receipt; or use “UQ” to notify C1 that C4 requires additional information and may contact the supplier. 
 
@@ -264,17 +264,19 @@ This section describes a few common business scenarios and provides UBL examples
 
 ### 5.1 Accepting invoices
 
+**Scenario**
 Invoice received successfully by customer and invoice has been successfully processed and approved for payment.
 
-Message                			| Status	| Use
----                    			| ---     	|
-Transport Acknowledgement       	| OK		| Mandatory
-Message Level Response 			| AB		| Optional
-Message Level Response			| AP		| Mandatory
-Invoice Response 			| AB 		| Optional
-Invoice Response			| AP		| Mandatory
+**Feedback cycle**
+Step 	| Message                		| Status	| Use
+---	| ---                    		| ---     	| ---
+1	| Transport Acknowledgement       	| OK		| Mandatory
+2	| Message Level Response 		| AB		| Optional
+3	| Message Level Response		| AP		| Mandatory
+4	| Invoice Response 			| AB 		| Optional
+5	| Invoice Response			| AP		| Mandatory
 
-Example Invoice Response Content
+**Example Invoice Response content**
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
@@ -284,25 +286,146 @@ Example Invoice Response Content
   </cac:Status>
 </cac:Response>
 ```
-### 5.2 Rejecting invoices
+
+##### 5.2.3.2 Invoice fails 3-way matching - Follow up with C1 out of channel
+
+**Scenario**
+A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
+The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
+Resolving the issue leads to a rejection of the invoice.
+
+**Feedback cycle**
+Step 	| Message                		| Status	| Use
+--- 	| ---                    		| ---     	| ---
+1 	| Transport Acknowledgement       	| OK		| Mandatory
+2 	| Message Level Response 		| AB		| Optional
+3 	| Message Level Response		| AP		| Mandatory
+4 	| Invoice Response 			| AB 		| Optional
+5 	| Invoice Response			| UQ		| Mandatory
+6 	| Invoice Response			| AP or RE	| Mandatory
+
+**Example Invoice Response content**
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->	
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
+
+### 5.2 Failures and rejecting invoices
+
+The following subsections each describe a scenario where a failure occurs in the process of delivering the invoice to the customeran invoice gets rejected
 
 #### 5.2.1 Syntax incorrect and/or schematron error
 
-Supplier sends an invoice where the XML is malformed or where the XML contains FATAL schematron errors
+**Scenario**
+Supplier (C1) sends an invoice where the XML is malformed or where the XML contains FATAL schematron errors.
+The serviceprovider of the customer (C3) rejects the invoice by sending a Message Level Response to the serviceprovider of the supplier (C2).
 
-Message                			| Status	| Use
----                    			| ---     	|
-Transport Acknowledgement       	| OK		| Mandatory
-Message Level Response 			| AB		| Optional
-Message Level Response			| RE		| Mandatory
+> Note: In theory this scenario should not happen. Peppol compliancy policy states that a "... sender is accountable for the technical correctness and quality of the submitted business documents and shall ensure that submitted business documents are valid according to the relevant specification...".
+
+**Feedback cycle**
+Step 	| Message                		| Status	| Use
+--- 	| ---                    		| ---     	| ---
+1 	| Transport Acknowledgement       	| OK		| Mandatory
+2 	| Message Level Response 		| AB		| Optional
+3 	| Message Level Response		| RE		| Mandatory
 
 #### 5.2.2 Unable to deliver invoice to customer
 
+**Scenario**
+Supplier (C1) sends a correct invoice, but the serviceprovider of the customer (C3) is unable to deliver the invoice to the customer (C4).
+
+Step 	| Message                		| Status	| Use
+--- 	| ---                    		| ---     	| ---
+1 	| Transport Acknowledgement       	| OK		| Mandatory
+2 	| Message Level Response 		| AB		| Optional
+3 	| Message Level Response		| AP		| Mandatory
+4 	| Invoice Response 			| Any 		| Failed to send within 1 hour
+
 #### 5.2.3 Invoice fails 3-way matching
 
-A common scenario is that the purchase order number is invalid or cannot be matched to the vendor. Depending on internal processes, C4 may decide to 
+A common scenario is that the purchase order number is invalid or cannot be matched to the supplier in the ERP system of the customer. 
+Depending on internal processes, the customer (C4) may decide to:
 1.	Reject the invoice
-2.	Follow up with C1 out of channel (UQ). 
+2.	Follow up with supplier (C1) out of channel
+
+##### 5.2.3.1 Invoice fails 3-way matching - Rejecting the invoice
+
+**Scenario**
+A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
+The customer decides to reject the invoice and asks the supplier to reissue an invoice with the correct purchase order number.
+
+**Feedback cycle**
+Step 	| Message                		| Status	| Use
+--- 	| ---                    		| ---     	| ---
+1 	| Transport Acknowledgement       	| OK		| Mandatory
+2 	| Message Level Response 		| AB		| Optional
+3 	| Message Level Response		| AP		| Mandatory
+4 	| Invoice Response 			| AB 		| Optional
+5 	| Invoice Response			| RE		| Mandatory
+
+**Example Invoice Response content**
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->	
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
+
+##### 5.2.3.2 Invoice fails 3-way matching - Follow up with C1 out of channel
+
+**Scenario**
+A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
+The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
+Resolving the issue leads to a rejection of the invoice.
+
+**Feedback cycle**
+Step 	| Message                		| Status	| Use
+--- 	| ---                    		| ---     	| ---
+1 	| Transport Acknowledgement       	| OK		| Mandatory
+2 	| Message Level Response 		| AB		| Optional
+3 	| Message Level Response		| AP		| Mandatory
+4 	| Invoice Response 			| AB 		| Optional
+5 	| Invoice Response			| UQ		| Mandatory
+6 	| Invoice Response			| AP or RE	| Mandatory
+
+Example Invoice Response Content
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->	
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
+
+#### 5.2.4 Bank account details not matching
 
 
 
