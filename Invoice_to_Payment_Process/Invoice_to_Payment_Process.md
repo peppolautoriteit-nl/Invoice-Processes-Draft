@@ -266,6 +266,7 @@ This section describes common business scenarios and provides examples to illust
 ### 5.1.1 Accepting invoices
 
 **Scenario**
+
 Invoice received successfully by customer and invoice has been successfully processed and approved for payment.
 
 **Feedback cycle**
@@ -291,6 +292,7 @@ Step 	| Message                		| Status	| Use
 ##### 5.1.2 Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance
 
 **Scenario**
+
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
 The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
 Resolving the issue leads to a rejection of the invoice.
@@ -329,6 +331,7 @@ The following subsections each describe a scenario where a failure occurs in the
 #### 5.2.1 Syntax incorrect and/or schematron error
 
 **Scenario**
+
 Supplier (C1) sends an invoice where the XML is malformed or where the XML contains FATAL schematron errors.
 The serviceprovider of the customer (C3) rejects the invoice by sending a Message Level Response to the serviceprovider of the supplier (C2).
 
@@ -344,6 +347,7 @@ Step 	| Message                		| Status	| Use
 #### 5.2.2 Unable to deliver invoice to customer
 
 **Scenario**
+
 Supplier (C1) sends a correct invoice, but the serviceprovider of the customer (C3) is unable to deliver the invoice to the customer (C4).
 
 Step 	| Message                		| Status	| Use
@@ -356,6 +360,7 @@ Step 	| Message                		| Status	| Use
 ##### 5.2.3 Invoice fails 3-way matching - Rejecting the invoice
 
 **Scenario**
+
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
 The customer decides to reject the invoice and asks the supplier to reissue an invoice with the correct purchase order number.
 
@@ -388,6 +393,7 @@ Step 	| Message                		| Status	| Use
 ##### 5.2.4 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
 
 **Scenario**
+
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
 The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
 Resolving the issue leads to a rejection of the invoice.
@@ -404,6 +410,14 @@ Step 	| Message                		| Status	| Use
 6 	| Invoice Response			| RE		| Mandatory
 
 Example Invoice Response Content
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
