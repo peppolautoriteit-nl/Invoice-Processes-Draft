@@ -263,7 +263,7 @@ ApplicationResponse                           |                                 
 
 This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
-### 5.1 Accepting invoices
+### 5.1.1 Accepting invoices
 
 **Scenario**
 Invoice received successfully by customer and invoice has been successfully processed and approved for payment.
@@ -288,7 +288,7 @@ Step 	| Message                		| Status	| Use
 </cac:Response>
 ```
 
-##### 5.2.3.2 Invoice fails 3-way matching - Follow up with C1 out of channel
+##### 5.1.2 Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance
 
 **Scenario**
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
@@ -353,14 +353,7 @@ Step 	| Message                		| Status	| Use
 3 	| Message Level Response		| AP		| Mandatory
 4 	| Invoice Response 			| Any 		| Failed to send within 1 hour
 
-#### 5.2.3 Invoice fails 3-way matching
-
-A common scenario is that the purchase order number is invalid or cannot be matched to the supplier in the ERP system of the customer. 
-Depending on internal processes, the customer (C4) may decide to:
-1.	Reject the invoice
-2.	Follow up with supplier (C1) out of channel
-
-##### 5.2.3.1 Invoice fails 3-way matching - Rejecting the invoice
+##### 5.2.3 Invoice fails 3-way matching - Rejecting the invoice
 
 **Scenario**
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
@@ -392,12 +385,13 @@ Step 	| Message                		| Status	| Use
 </cac:Response>
 ```
 
-##### 5.2.3.2 Invoice fails 3-way matching - Follow up with C1 out of channel
+##### 5.2.4 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
 
 **Scenario**
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
 The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
 Resolving the issue leads to a rejection of the invoice.
+See 5.1.2 for the same scenario that leads to acceptance.
 
 **Feedback cycle**
 Step 	| Message                		| Status	| Use
@@ -407,7 +401,7 @@ Step 	| Message                		| Status	| Use
 3 	| Message Level Response		| AP		| Mandatory
 4 	| Invoice Response 			| AB 		| Optional
 5 	| Invoice Response			| UQ		| Mandatory
-6 	| Invoice Response			| AP or RE	| Mandatory
+6 	| Invoice Response			| RE		| Mandatory
 
 Example Invoice Response Content
 ```XML
@@ -426,22 +420,22 @@ Example Invoice Response Content
 </cac:Response>
 ```
 
-#### 5.2.4 Bank account details not matching
+#### 5.2.5 Bank account details not matching
 
 
-#### 5.2.5 Supplier uknown in customer master data
+#### 5.2.6 Supplier uknown in customer master data
 
 
-#### 5.2.6 Payment terms or invoice due date not as expected
+#### 5.2.7 Payment terms or invoice due date not as expected
 
 
-#### 5.2.7 Delivery of goods
+#### 5.2.8 Delivery of goods
 
 
-#### 5.2.8 Duplicate invoice
+#### 5.2.9 Duplicate invoice
 
 
-#### 5.2.9 VAT incorrect
+#### 5.2.10 VAT incorrect
 
 
 
