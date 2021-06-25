@@ -36,7 +36,7 @@ This process assumes that both the invoice and the credit note are exchanged ele
 sequenceDiagram
     Supplier ->> Corner 2: Invoice
     Corner 2 ->> Corner 3: Invoice
-    Corner 3 ->> Corner 2: Transport Acknowledgement
+    Corner 3 -->> Corner 2: Transport Acknowledgement
         Note right of Corner 3: Corner 3 checks syntax and semantics.
     Corner 3 ->> Corner 2: Message Level Response
     Corner 3 ->> Customer: Invoice
@@ -46,6 +46,7 @@ sequenceDiagram
     Corner 2 ->> Supplier: Invoice Response
 
 ```
+> Note: For Transport Acknowledgement a dotted line is used to point out that this is not a BIS message but it is part of the AS4 feedback communication between serviceproviders.
 
 ### 2.1 Invoice
 
