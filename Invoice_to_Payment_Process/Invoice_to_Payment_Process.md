@@ -46,7 +46,7 @@ sequenceDiagram
     Corner 2 ->> Supplier: Invoice Response
 
 ```
-> Note: For Transport Acknowledgement a dotted line is used to point out that this is not a BIS message but it is part of the AS4 feedback communication between serviceproviders.
+> Note: For Transport Acknowledgement a dotted line is used to point out that this is not a BIS message but it is part of the AS4 feedback communication between serviceproviders. See section 2.2
 
 ### 2.1 Invoice
 
