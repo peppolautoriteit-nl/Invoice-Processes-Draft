@@ -305,7 +305,7 @@ Step 	| Message                		| Status	| Use
 3 	| Message Level Response		| AP		| Mandatory
 4 	| Invoice Response 			| AB 		| Optional
 5 	| Invoice Response			| UQ		| Mandatory
-6 	| Invoice Response			| AP or RE	| Mandatory
+6 	| Invoice Response			| AP		| Mandatory
 
 **Example Invoice Response content**
 ```XML
@@ -320,6 +320,16 @@ Step 	| Message                		| Status	| Use
   <!--including an action code to request the sender to send another invoice-->	
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AP</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">NON</cbc:StatusReasonCode>
   </cac:Status>
 </cac:Response>
 ```
@@ -343,6 +353,33 @@ Step 	| Message                		| Status	| Use
 1 	| Transport Acknowledgement       	| OK		| Mandatory
 2 	| Message Level Response 		| AB		| Optional
 3 	| Message Level Response		| RE		| Mandatory
+
+
+**Example Message Level Response content**
+```XML
+<cac:DocumentResponse>
+  <cac:Response>
+    <cbc:ResponseCode>RE</cbc:ResponseCode>
+    <cbc:Description>Rejected due to validation errors</cbc:Description>
+  </cac:Response>
+  <cac:DocumentReference>
+    <cbc:ID>EnvelopeID-12456789</cbc:ID>
+    <cbc:DocumentTypeCode>380</cbc:DocumentTypeCode>
+  </cac:DocumentReference>
+  <cac:LineResponse>
+    <cac:LineReference>
+      <cbc:LineID>/Invoice/TaxRepresentativeParty/PostalAddress</cbc:LineID>
+    </cac:LineReference>
+    <cac:Response>
+      <cbc:ResponseCode>RE</cbc:ResponseCode>
+      <cbc:Description>[NL-R-006] For suppliers in the Netherlands, if the fiscal representative is in the Netherlands, the representative's address (cac:TaxRepresentativeParty/cac:PostalAddress) MUST contain street name (cbc:StreetName), city (cbc:CityName) and post code (cbc:PostalZone)</cbc:Description>
+      <cac:Status>
+	<cbc:StatusReasonCode>BV</cbc:StatusReasonCode>
+      </cac:Status>
+    </cac:Response>
+  </cac:LineResponse>
+</cac:DocumentResponse>
+```
 
 #### 5.2.2 Unable to deliver invoice to customer
 
