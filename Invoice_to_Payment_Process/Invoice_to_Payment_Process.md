@@ -109,6 +109,51 @@ graph LR
 
 ### 3.1 Message Level Response
 
+#### 3.1.1 Scope
+
+The scope of the Message Level Response is:
+
+1. The Message Level Response uses BIS Message Level Response 3.0 (see this link for the [Peppol business documentation|https://docs.peppol.eu/poacc/upgrade-3/profiles/36-mlr/]. The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
+2. The Message Level Response is sent by the customer AP (C3) on behalf of the customer (C4) to the supplier (C1) but can be handled by the supplier AP (C2) conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to the envelop of the business document sent by the supplier.
+3. The SMP record for the MLR should use the sending AP as endpoint or route the message to the supplier AP (C2).
+4. The following errors are within the scope for a negative/rejecting Message Level Response:
+ 	* XML schema validation error
+	* Standard Compliance violations (e.g. empty elements not being allowed by UBL 2.1)
+	* Validation error of type fatal error
+	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors)
+	* Wrong version of business document (Will be handled like validation error of type fatal error)
+5. Can be used to indicate delivery failures between C3 and C4 when the MLR is mandatory and there is no reject or accept send by MLR within a specific time (1 hour)
+
+#### 3.1.2 Response
+
+When the MLR is mandatory:
+
+1. Acknowledging (AB) must be send if validation and delivery are separate processes.
+2. Acceptance (AP) must be send if there are no technical errors and the document is received by customer C4.
+3. Reject (RE)  must be send if there are technical errors.
+
+When the MLR is not mandatory and MLR is registered for sender:
+
+1. Acknowledging (AB) may be send if validation and delivery are separate processes.
+2. Acceptance (AP) may be send if there are no technical errors and the document is received by customer C4.
+3. Reject (RE)  may be send if there are technical errors.
+
+#### 3.1.3 Routing
+
+The MLR is a business document indicating the technical status of a document send to the sender of the document. The MLR refers to the instance Identifier of the envelop of the document sent. The  instance Identifier must be stored during creation of the document to be able to handle the returned MLR. When the sender AP creates the envelop and does not share the instance Identifier with the original sender the MLR can only be handled by the original sender AP. To be able to receive the MLR, the original sender AP must be registerd as ServiceEndpointList/Endpoint in the original sender indentifier SMP records for MLR documents. If the sender AP does not own the SMP records for the sender indentifier the AP must ask the owner of the identifier to register the MLR document.
+
+It is bad practise to point the Sender or Receiver other than indicating the original sender or original receiver. The SDB envelop may be used outside the scope of the AP’s.
+
+#### 3.1.4 Mapping
+
+| Envelope of document sent                 | MLR                                                 |
+|-----                                      |------                                               |
+| Sender/Identifier                         | cac:SenderParty/cbc:EndpointID                      |
+| Receiver/Identifier	                    |cac:ReceiverParty/cbc:EndpointID                     |
+| DocumentIdentification/InstanceIdentifier | cac:DocumentResponse/cac:DocumentReference/cbc:ID   |
+
+
+
 ### 3.2 Invoice Response 
 
 #### 3.2.1 Scope
