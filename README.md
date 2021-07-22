@@ -22,6 +22,7 @@ Document | Description |
 ---------|-------------|
 [Briefing](Briefing/Briefing.md) | A one-pager describing why response messages are important, and questions for the working group |
 [Invoice to Payment Process](Invoice_to_Payment_Process/Invoice_to_Payment_Process.md)| A full descriptive document of the potential scenarios in the invoicing process, and when to use which response document |
+[Images](images) | A folder for storing all images that are used elsewhere in this repository |
 
 ## The Mermaid extension for markdown/github
 
