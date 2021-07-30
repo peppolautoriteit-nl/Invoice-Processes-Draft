@@ -135,7 +135,7 @@ When the MLR is mandatory:
 When the MLR is not mandatory and MLR is registered for sender:
 
 1. Acknowledging (AB) may be send if validation and delivery are separate processes.
-2. Acceptance (AP) may be send if there are no technical errors and the document is received by customer C4.
+2. Acceptance (AP) may be send if there are no technical errors. If the MLR is also used to report problems between C3 and C4 the document must be technicaly received by customer C4.
 3. Reject (RE)  may be send if there are technical errors.
 
 #### 3.1.3 Routing
