@@ -142,7 +142,7 @@ When the MLR is not mandatory and MLR is registered for sender:
 
 The MLR is a business document indicating the technical status of a document send to the sender of the document. The MLR refers to the instance Identifier of the envelop of the document sent. The  instance Identifier must be stored during creation of the document to be able to handle the returned MLR. When the sender AP creates the envelop and does not share the instance Identifier with the original sender the MLR can only be handled by the original sender AP. To be able to receive the MLR, the original sender AP must be registerd as ServiceEndpointList/Endpoint in the original sender indentifier SMP records for MLR documents. If the sender AP does not own the SMP records for the sender indentifier the AP must ask the owner of the identifier to register the MLR document.
 
-It is bad practise to point the Sender or Receiver other than indicating the original sender or original receiver. The SDB envelop may be used outside the scope of the AP’s.
+It is bad practise to point the Sender or Receiver other than indicating the original sender or original receiver in the SDB envelop. The SBD envelop may be used outside the scope of the AP’s.
 
 #### 3.1.4 Mapping
 
