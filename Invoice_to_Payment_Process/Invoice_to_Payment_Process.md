@@ -117,11 +117,11 @@ The scope of the Message Level Response is:
 2. The Message Level Response is sent by the customer AP (C3) on behalf of the customer (C4) to the supplier (C1) but can be handled by the supplier AP (C2) conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to the envelop of the business document sent by the supplier.
 3. When publishing MLR support in your SMP the record should point to the sending AP, meaning that the supplier sending AP (C2) will receive the Message Level Response to match it to the Transaction ID of the sent document.
 4. The following errors are within the scope for a negative/rejecting Message Level Response:
- 	* XML schema validation error
-	* Standard Compliance violations (e.g. empty elements not being allowed by UBL 2.1)
-	* Validation error of type fatal error
-	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors)
-	* Wrong version of business document (Will be handled like validation error of type fatal error)
+ 	* XML schema validation error.
+	* Standard Compliance violations (e.g. empty elements not being allowed by UBL 2.1).
+	* Validation error of type fatal error.
+	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors).
+	* Wrong version of business document if not detected during transport (Will be handled like validation error of type fatal error).
 5. Can be used to indicate delivery failures between C3 and C4 when the MLR is mandatory and there is no reject or accept send by MLR within a specific time (1 hour)
 
 #### 3.1.2 Response
