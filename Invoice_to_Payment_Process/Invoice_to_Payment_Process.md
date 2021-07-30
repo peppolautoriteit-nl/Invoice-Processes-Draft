@@ -122,7 +122,7 @@ The scope of the Message Level Response is:
 	* Validation error of type fatal error.
 	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors).
 	* Wrong version of business document if not detected during transport (Will be handled like validation error of type fatal error).
-5. Can be used to indicate delivery failures between C3 and C4 when the MLR is mandatory and there is no reject or accept send by MLR within a specific time (1 hour)
+5. Can be used to indicate delivery failures between C3 and C4 when the MLR is mandatory and there is no reject or accept send by MLR within a specific time (1 hour). This is a sugestion and depending on the fact the MLR is mandatory and acknowledge us used.
 
 #### 3.1.2 Response
 
