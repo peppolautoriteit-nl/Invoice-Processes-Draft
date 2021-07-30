@@ -129,7 +129,7 @@ The scope of the Message Level Response is:
 When the MLR is mandatory:
 
 1. Acknowledging (AB) must be send if validation and delivery are separate processes.
-2. Acceptance (AP) must be send if there are no technical errors and the document is received by customer C4.
+2. Acceptance (AP) must be send if there are no technical errors. If the MLR is also used to report problems between C3 and C4 the document must be technicaly received by customer C4.
 3. Reject (RE)  must be send if there are technical errors.
 
 When the MLR is not mandatory and MLR is registered for sender:
