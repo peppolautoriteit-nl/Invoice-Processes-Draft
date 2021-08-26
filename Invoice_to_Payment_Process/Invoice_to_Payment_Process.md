@@ -67,7 +67,7 @@ graph LR
 ```
 
 
-### 2.2 Transport acknowledgement
+### 2.2 Transport acknowledgement or error/failure
 These are messages that are exchanged within the transport network(s) to inform about the process of carrying a message down the transport line.
 These responses may inform someone up-line that the delivery to a given point was successful or not and may contain details about issues that are relevant such as why a delivery was not successful. 
 The key nature of these responses is that they do not in any way act on result of validation or processing of the content of the payload that is being transported. 
