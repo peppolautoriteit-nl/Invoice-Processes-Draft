@@ -166,7 +166,7 @@ In the following sections you will find a detailed description of the syntax and
 
 ### 4.1 Message Level Response 3.0
 
-Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
+Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ----                                          | ---                                                                                               | ---           | ---           | ---
 xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
 ApplicationResponse                           |                                                                                                   | 1..1          |               | 
@@ -201,7 +201,7 @@ ApplicationResponse                           |                                 
 
 ### 4.2 Invoice Response transaction 3.1
 
-Field                                         | Example content                                                                                   | Cardinality   | Data type     | Explanation
+Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
 xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
 ApplicationResponse                           |                                                                                                   | 1..1          |               | 
