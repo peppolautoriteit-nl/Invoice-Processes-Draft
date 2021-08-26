@@ -497,5 +497,5 @@ Limitations and other remarks that are relevant for this process
 Item 	| Description                		|
 --- 	| ---                    		|
 1 	| IN order to implement the Invoice Response processes the integration with the ERP/Financial system in corner 4 is essential for the reliability of the Peppol network. |
-2 	| Message Level Response 																		 |
+2 	| 																					 |
 
