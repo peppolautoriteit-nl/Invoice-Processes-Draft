@@ -6,7 +6,7 @@ A common concern expressed by sellers and their service providers is the lack of
 Additionally, there is a lack of understanding of the different options or system triggers for automated invoice status communication via Peppol, i.e. using the Peppol Invoice Response message.
 
 Both national and international end users as well as service providers express a broad support for the implementation of status messages, with most feedback indicating that it is vital to the success of the network.
-In response to this The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in  2021. 
+In response to this The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in  2021.
 This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
 The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
@@ -29,7 +29,7 @@ The technical implications of the implementation of the Message Level Response a
 11.	The serviceprovider of the customer wraps the invoice response in an envelope and sends the message on behalf of the customer to the serviceprovider of the supplier.
 12.	The serviceprovider of the supplier unwraps the message and forwards the invoice response to the supplier.
 
-The diagram below shows the basic invoicing process with the use of this PEPPOL BIS profile. 
+The diagram below shows the basic invoicing process with the use of this PEPPOL BIS profile.
 This process assumes that both the invoice and the credit note are exchanged electronically.
 
 ```mermaid
@@ -69,8 +69,8 @@ graph LR
 
 ### 2.2 Transport acknowledgement or error/failure
 These are messages that are exchanged within the transport network(s) to inform about the process of carrying a message down the transport line.
-These responses may inform someone up-line that the delivery to a given point was successful or not and may contain details about issues that are relevant such as why a delivery was not successful. 
-The key nature of these responses is that they do not in any way act on result of validation or processing of the content of the payload that is being transported. 
+These responses may inform someone up-line that the delivery to a given point was successful or not and may contain details about issues that are relevant such as why a delivery was not successful.
+The key nature of these responses is that they do not in any way act on result of validation or processing of the content of the payload that is being transported.
 These response messages are commonly called “acks”.
 Thus, unlike a Message Level Response and Invoice Response, a Transport Acknowledgement is not a document that is exchanged over the network.
 The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefor also of the (invoicing) process.
@@ -78,16 +78,16 @@ The reason Transport acknowledgements are explicitly mentioned in this document 
 > For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/] and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
 ### 2.3 Message Level Response
-When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic. 
-The outcome of these validations should be reported to a relevant party up-line, informing him whether the validation was successful or not as well as giving some details. 
-An example could be that an invoice message that is received is rejected because it is missing a closing tag (syntax error) or because its amounts don’t add up according to what is specified in the relevant syntax specification. 
+When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic.
+The outcome of these validations should be reported to a relevant party up-line, informing him whether the validation was successful or not as well as giving some details.
+An example could be that an invoice message that is received is rejected because it is missing a closing tag (syntax error) or because its amounts don’t add up according to what is specified in the relevant syntax specification.
 A key nature of these messages is that they report on the message content on the basis of the technical specifications that apply to the message of the sender.
 
 
 ### 2.4 Invoice Responses
-A message that has been received and accepted for processing may call for an action on the receiver’s behalf. 
-That receiver’s action can be reported back up-line to a relevant party. 
-An example is that a technically correct invoice may be received but the receiver decides to reject the invoice for any business reason such as an invalid Purchase Ordernumber. 
+A message that has been received and accepted for processing may call for an action on the receiver’s behalf.
+That receiver’s action can be reported back up-line to a relevant party.
+An example is that a technically correct invoice may be received but the receiver decides to reject the invoice for any business reason such as an invalid Purchase Ordernumber.
 The key nature of these responses is that they report a business decision that is made on the message instance received.
 We want to state clearly that any business requirements that are applied on top of the standard document business rules must have been explicitly communicated by the customer to the supplier.
 This can be done by mentioning the specific requirements in a tender, in the purchase order agreement or on a publicly known webpage (for example basisfactuur Rijk).
@@ -107,35 +107,37 @@ graph LR
 
 ## 3 Best practices
 
-### 3.1 Message Level Response
+### 3.1 Transport Level Response
 
-### 3.2 Invoice Response 
+### 3.2 Message Level Response
 
-#### 3.2.1 Scope
+### 3.3 Invoice Response
+
+#### 3.3.1 Scope
 
 The scope of the Invoice Response is:
 
 1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the [Peppol business documentation|https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/]. The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
 2. The Invoice Response Message is sent by the customer AP to the supplier AP conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to an invoice message sent by the supplier AP.
-3. The actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems. 
+3. The actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems.
 4. The business meaning of the invoice status remains the same through the entire chain (e.g. the definition of the status ‘Accepted’ is the same in the entire chain).
 5. An Invoice may result in multiple Invoice Response messages.
 
-#### 3.2.2 Timeframes for response
+#### 3.3.2 Timeframes for response
 
 Timely and clear communication of invoice status will assist sellers to improve their data quality and reduce future rejections. This is especially important for newly on-boarded suppliers.
 
-It is a requirement by the Peppol BIS standard that C1 should receive a response within 3 working days. 
+It is a requirement by the Peppol BIS standard that C1 should receive a response within 3 working days.
 From an automation perspective 3 workings days is quite a long time. Therefor the suggested best practices are:
 
-1.	Where C4 has implemented automated processing, it is best practice to send a response / C4 confirmation of receipt within 1 hour, i.e. AB- acknowledgement or a more advanced processing status.  
-2.	During C4 processing (manual or automated), when invoice status changes, the change of status should be communicated to C1 within 1 hour or as soon as applicable. E.g. the status changes from AB- Acknowledgement to RE- Rejected. 
+1.	Where C4 has implemented automated processing, it is best practice to send a response / C4 confirmation of receipt within 1 hour, i.e. AB- acknowledgement or a more advanced processing status.
+2.	During C4 processing (manual or automated), when invoice status changes, the change of status should be communicated to C1 within 1 hour or as soon as applicable. E.g. the status changes from AB- Acknowledgement to RE- Rejected.
 
-#### 3.2.3 Status codes
+#### 3.3.3 Status codes
 
-The PEPPOL BIS Invoice Response supports a number of optional and mandatory status codes. 
-In order to have a proper understanding of the status of invoices in the process there is a strict order in which the status codes need to be used. 
-The order is shown in the table below. 
+The PEPPOL BIS Invoice Response supports a number of optional and mandatory status codes.
+In order to have a proper understanding of the status of invoices in the process there is a strict order in which the status codes need to be used.
+The order is shown in the table below.
 
 
 | Status Code   | UNECE name                | BIS usage                                                                                                                                                                                                                                                                         | Clarification on requirements | Mandatory | Final |
@@ -152,9 +154,9 @@ The order is shown in the table below.
 > Note that individual ERP vendors may have different process flow implementations and thus might not generate a status that corresponds with the codes in this list.
 Also the ERP vendor might not use the statusses in the same orders as defined here.
 
-Within the required response timeframe, C4 can choose the most appropriate status code for the first response - i.e. it is not mandatory to use “AB” as the first response. For example, if C4 has completed processing an invoice within one hour with no issues found, C4 can send only one invoice response with a status code of “AP – Accepted”. If C4 has identified an issue during processing, which requires investigation and takes longer to process, C4 may choose to send “AB” to confirm invoice receipt; or use “UQ” to notify C1 that C4 requires additional information and may contact the supplier. 
+Within the required response timeframe, C4 can choose the most appropriate status code for the first response - i.e. it is not mandatory to use “AB” as the first response. For example, if C4 has completed processing an invoice within one hour with no issues found, C4 can send only one invoice response with a status code of “AP – Accepted”. If C4 has identified an issue during processing, which requires investigation and takes longer to process, C4 may choose to send “AB” to confirm invoice receipt; or use “UQ” to notify C1 that C4 requires additional information and may contact the supplier.
 
-C4 should provide clear and meaningful reasons to assist C1 to take action. This can be done using a combination of Peppol-defined status reason and action codes and free text fields. Further details about specific invoice scenarios are provided in section 5. 
+C4 should provide clear and meaningful reasons to assist C1 to take action. This can be done using a combination of Peppol-defined status reason and action codes and free text fields. Further details about specific invoice scenarios are provided in section 5.
 
 ## 4 Message definitions
 
@@ -168,12 +170,12 @@ In the following sections you will find a detailed description of the syntax and
 
 Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ----                                          | ---                                                                                               | ---           | ---           | ---
-xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
-ApplicationResponse                           |                                                                                                   | 1..1          |               | 
-:black_medium_small_square: cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:mlr:3                                                                | 1..1          | Identifier    | 
-:black_medium_small_square: cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:mlr:3                                                                 | 1..1          | Identifier    | 
-:black_medium_small_square: cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Message Level Response. 
-:black_medium_small_square: cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Message Level Response issue date 
+xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               |
+ApplicationResponse                           |                                                                                                   | 1..1          |               |
+:black_medium_small_square: cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:mlr:3                                                                | 1..1          | Identifier    |
+:black_medium_small_square: cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:mlr:3                                                                 | 1..1          | Identifier    |
+:black_medium_small_square: cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Message Level Response.
+:black_medium_small_square: cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Message Level Response issue date
 :black_medium_small_square: cbc:IssueTime                             | 13:34:32                                                                                          | 0..1          | Time          | Message Level Response issue time
 :black_medium_small_square: cac:SenderParty                           |                                                                                                   | 1..1          |               | Sender information
 :black_medium_small_square::black_medium_small_square: cbc:EndpointID                         | [CoC number] or [OIN number] or [VAT number]                                                      | 1..1          | Identifier    | Identifies the sender party's electronic address
@@ -185,7 +187,7 @@ ApplicationResponse                           |                                 
 ...... cac:Response                           |                                                                                                   | 1..1          |               | Response information
 ......... cbc:ResponseCode                    | AB = Message acknowledgement or AP = accepted or RE = Rejected                                    | 1..1          | Identifier    | Message response code
 ......... cbc:Description                     | Rejected due to validation errors                                                                 | 0..1          | Identifier    | Response textual notes
-...... cac:DocumentReference                  |                                                                                                   | 1..1          |               | 
+...... cac:DocumentReference                  |                                                                                                   | 1..1          |               |
 ......... cbc:ID                              | Reference to the envelope Message ID                                                              | 1..1          | Identifier    | Document identifier
 ......... cbc:DocumentTypeCode                | 380 = Commercial invoice or 381 = Credit note or 384 = Corrected invoice                          | 0..1          | Identifier    | Document type code
 ......... cbc:VersionID                       |                                                                                                   | 0..1          | Identifier    | Document version identifier
@@ -203,12 +205,12 @@ ApplicationResponse                           |                                 
 
 Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
-xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               | 
-ApplicationResponse                           |                                                                                                   | 1..1          |               | 
-... cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:invoice_response:3                                                   | 1..1          | Identifier    | 
-... cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:invoice_response:3                                                    | 1..1          | Identifier    | 
-... cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Invoice Response message. 
-... cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Invoice Response issue date 
+xml                                           | attributes => version="1.0" encoding="UTF-8"                                                      |               |               |
+ApplicationResponse                           |                                                                                                   | 1..1          |               |
+... cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:invoice_response:3                                                   | 1..1          | Identifier    |
+... cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:invoice_response:3                                                    | 1..1          | Identifier    |
+... cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Invoice Response message.
+... cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Invoice Response issue date
 ... cbc:IssueTime                             | 13:34:32                                                                                          | 0..1          | Time          | Invoice Response issue time
 ... cbc:Note                                  | Please contact Joop Jansen for any additional questions                                           | 0..1          | Text          | General comments or instructions that are relevant to the response as a whole
 ... cac:SenderParty                           |                                                                                                   | 1..1          |               | Sender Party
@@ -217,7 +219,7 @@ ApplicationResponse                           |                                 
 ...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
 ......... cbc:ID                              | 12345678                                                                                          | 1..1          | Identifier    | Party identifier
 ............ @schemeID                        | 0106                                                                                              | 0..1          | Identifier    | Electronic Address Scheme (f.e. 0106 or 0190)
-...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | 
+...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               |
 ......... cbc:RegistrationName                | Haagse administratiegroep                                                                         | 1..1          | Text          | Sender party name
 ...... cac:Contact                            |                                                                                                   | 0..1          |               | Contact information
 ......... cbc:Name                            | Joop Jansen                                                                                       | 0..1          | Text          | Party contact point name
@@ -229,10 +231,10 @@ ApplicationResponse                           |                                 
 ...... cac:PartyIdentification                |                                                                                                   | 0..1          |               | Party identification
 ......... cbc:ID                              |                                                                                                   | 1..1          |               | Reciever party identifier
 ............ @schemeID                        | 0106                                                                                              | 0..1          | Identifier    | Electronic Address Scheme (f.e. 0106 or 0190)
-...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               | 
+...... cac:PartyLegalEntity                   |                                                                                                   | 1..1          |               |
 ......... cbc:RegistrationName                | Coevorden handelsbedrijf                                                                          | 1..1          | Text          | Receiver party name
 ... cac:DocumentResponse                      |                                                                                                   | 1..1          |               | Document response
-...... cac:Response                           |                                                                                                   | 1..1          |               | 
+...... cac:Response                           |                                                                                                   | 1..1          |               |
 ......... cbc:ResponseCode                    | AP                                                                                                | 1..1          | Code          | Invoice status (UNCL4343)
 ......... cbc:EffectiveDate                   | 10-2-2021                                                                                         | 0..1          | Date          | Status date
 ...... cac:Status                             |                                                                                                   | 0..N          |               | Clarification information, mandatory when invoice status is UQ-Under query, RE - Rejected or CA - Conditionally Accepted.
@@ -240,7 +242,7 @@ ApplicationResponse                           |                                 
 ............ @listID                          | OPStatusAction or OPStatusReason                                                                  | 1..1          | Code          | List identifier
 ......... cbc:StatusReason                    |                                                                                                   | 0..1          | Text          | Clarification description
 ...... cac:Condition                          |                                                                                                   | 0..N          |               | Condition
-......... cbc:AttributeID                     |                                                                                                   | 1..1          | Code          | Detail type code 
+......... cbc:AttributeID                     |                                                                                                   | 1..1          | Code          | Detail type code
 ......... cbc:Description                     |                                                                                                   | 0..1          | Text          | Detail value
 ...... cac:DocumentReference                  |                                                                                                   | 1..1          |               | Document reference
 ......... cbc:ID                              | 2021932                                                                                           | 1..1          | Identifier    | Invoice identifier
@@ -352,7 +354,7 @@ Customer accepts the invoice based on additional information received from the s
 A supplier (C1) sends an invoice that contains a bank account number that is not known in the ERP system of the customer (C4).
 The supplier has probably forgotten to inform the customer of a changed bank account number, but it could be a potential case of fraude.
 Human intervention is preferred in this case to prevent potential fraud cases.
-The customer contacts the supplier to 
+The customer contacts the supplier to
 
 **Feedback cycle**
 
@@ -408,7 +410,9 @@ Customer accepts the invoice based on the new information.
 
 The following subsections each describe a scenario where a failure occurs in the process of delivering or processing the invoice.
 
-#### 5.2.1 Syntax incorrect and/or schematron error
+#### 5.2.1 Transport error or rejection
+
+#### 5.2.2 Syntax incorrect and/or schematron error
 
 **Scenario**
 
@@ -453,7 +457,7 @@ Step 	| Message                		    | Status	| Use
 </cac:DocumentResponse>
 ```
 
-#### 5.2.2 Unable to deliver invoice to customer
+#### 5.2.3 Unable to deliver invoice to customer
 
 **Scenario**
 
@@ -466,7 +470,7 @@ Step 	| Message                		| Status	| Use
 3 	    | Message Level Response		| AP		| Mandatory
 4 	    | Invoice Response 			    | Any 		| Failed to send within 1 hour
 
-##### 5.2.3 Invoice fails 3-way matching - Rejecting the invoice
+##### 5.2.4 Invoice fails 3-way matching - Rejecting the invoice
 
 **Scenario**
 
@@ -482,7 +486,7 @@ Step 	| Message                		| Status	| Use
 3 	    | Message Level Response		| AP		| Mandatory
 4 	    | Invoice Response 			    | AB 		| Optional
 5 	    | Invoice Response			    | RE		| Mandatory
-    
+
 **Example Invoice Response content**
 
 ```XML
@@ -494,14 +498,14 @@ Step 	| Message                		| Status	| Use
     <!--using the free text field to provide detailed description-->
     <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
   </cac:Status>
-  <!--including an action code to request the sender to send another invoice-->	
+  <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
   </cac:Status>
 </cac:Response>
 ```
 
-##### 5.2.4 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
+##### 5.2.5 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
 
 **Scenario**
 
@@ -551,7 +555,7 @@ Step 	| Message                		    | Status	| Use
     <!--using the free text field to provide detailed description-->
     <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
   </cac:Status>
-  <!--including an action code to request the sender to send another invoice-->	
+  <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
   </cac:Status>
@@ -559,7 +563,7 @@ Step 	| Message                		    | Status	| Use
 ```
 
 
-#### 5.2.5 Bank account details not matching
+#### 5.2.6 Bank account details not matching
 
 **Scenario**
 
@@ -617,7 +621,7 @@ Customer rejects the invoice.
 </cac:Response>
 ```
 
-#### 5.2.6 Supplier uknown in customer master data
+#### 5.2.7 Supplier unknown in customer master data
 
 **Scenario**
 
@@ -655,7 +659,7 @@ Customer rejects the invoice based on not finding a match in the supplier master
 </cac:Response>
 ```
 
-#### 5.2.7 Payment terms or invoice due date not as expected
+#### 5.2.8 Payment terms or invoice due date not as expected
 
 **Scenario**
 
@@ -681,7 +685,7 @@ Step 	| Message                		    | Status	| Use
 </cac:Response>
 ```
 
-The processing of the invoice has been halted by the customer. 
+The processing of the invoice has been halted by the customer.
 Customer will contact the supplier outside the channel to discuss the difference in payment terms and asks the supplier to resend the invoice.
 
 ```XML
@@ -696,7 +700,7 @@ Customer will contact the supplier outside the channel to discuss the difference
 </cac:Response>
 ```
 
-Customer rejects the invoice based on the supplier not using the agreed payment terms. 
+Customer rejects the invoice based on the supplier not using the agreed payment terms.
 
 
 ```XML
@@ -708,18 +712,18 @@ Customer rejects the invoice based on the supplier not using the agreed payment 
     <!--using the free text field to provide detailed description-->
     <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
   </cac:Status>
-  <!--including an action code to request the sender to send another invoice-->	
+  <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
   </cac:Status>
 </cac:Response>
 ```
 
-#### 5.2.8 Delivery of goods
+#### 5.2.9 Delivery of goods
 
 **Scenario**
 
-Customer 
+Customer
 
 **Feedback cycle**
 
@@ -764,18 +768,18 @@ Customer rejects the invoice based on not finding a match in the supplier master
     <!--using the free text field to provide detailed description-->
     <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
   </cac:Status>
-  <!--including an action code to request the sender to send another invoice-->	
+  <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
   </cac:Status>
 </cac:Response>
 ```
 
-#### 5.2.9 Duplicate invoice
+#### 5.2.10 Duplicate invoice
 
 
 
-#### 5.2.10 VAT incorrect
+#### 5.2.11 VAT incorrect
 
 
 
