@@ -263,25 +263,33 @@ ApplicationResponse                           |                                 
 
 This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
-### 5.1.1 Accepting invoices
+### 5.1 Accepting invoices
+
+##### 5.1.1 Direct acceptance
 
 **Scenario**
 
-Invoice received successfully by customer and invoice has been successfully processed and approved for payment.
+This scenario is also known as the happy flow.
+An invoice is received successfully by a customer and can be successfully processed and approved for payment.
 
 **Feedback cycle**
-Step 	| Message                		| Status	| Use
----	| ---                    		| ---     	| ---
-1	| Transport Acknowledgement       	| OK		| Mandatory
-2	| Message Level Response 		| AB		| Optional
-3	| Message Level Response		| AP		| Mandatory
-4	| Invoice Response 			| AB 		| Optional
-5	| Invoice Response			| AP		| Mandatory
+
+Step 	| Message                	    | Status	| Use
+---	    | ---                    		| ---     	| ---
+1	    | Transport Acknowledgement     | OK		| Mandatory
+2	    | Message Level Response 		| AB		| Optional
+3	    | Message Level Response		| AP		| Mandatory
+4	    | Invoice Response 			    | AB 		| Optional
+5	    | Invoice Response			    | AP		| Mandatory
+6	    | Invoice Response			    | PD		| Optional
 
 **Example Invoice Response content**
+
+Buyer gives final approval of the invoice.
+
 ```XML
 <cac:Response>
-  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AP</cbc:ResponseCode>
   <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusReason">NON</cbc:StatusReasonCode>
@@ -298,31 +306,34 @@ The customer decides to not reject the invoice, but instead contacts the supplie
 Resolving the issue leads to a rejection of the invoice.
 
 **Feedback cycle**
+
 Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
-1 	| Transport Acknowledgement       	| OK		| Mandatory
-2 	| Message Level Response 		| AB		| Optional
-3 	| Message Level Response		| AP		| Mandatory
-4 	| Invoice Response 			| AB 		| Optional
-5 	| Invoice Response			| UQ		| Mandatory
-6 	| Invoice Response			| AP		| Mandatory
+1 	    | Transport Acknowledgement    	| OK		| Mandatory
+2 	    | Message Level Response 		| AB		| Optional
+3 	    | Message Level Response		| AP		| Mandatory
+4 	    | Invoice Response 			    | AB 		| Optional
+5 	    | Invoice Response			    | UQ		| Mandatory
+6 	    | Invoice Response			    | AP		| Mandatory
+7 	    | Invoice Response			    | PD		| Optional
 
 **Example Invoice Response content**
+
+The processing of the invoice has been halted by the customer. Customer requests additional information from the supplier.
+
 ```XML
 <cac:Response>
-  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
   <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
     <!--using the free text field to provide detailed description-->
     <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
   </cac:Status>
-  <!--including an action code to request the sender to send another invoice-->	
-  <cac:Status>
-    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
-  </cac:Status>
 </cac:Response>
 ```
+
+Customer accepts the invoice based on additional information received from the supplier.
 
 ```XML
 <cac:Response>
@@ -334,9 +345,68 @@ Step 	| Message                		| Status	| Use
 </cac:Response>
 ```
 
+##### 5.1.3 Invoice fails bank account number - Follow up with C1 out of channel leading to acceptance
+
+**Scenario**
+
+A supplier (C1) sends an invoice that contains a bank account number that is not known in the ERP system of the customer (C4).
+The supplier has probably forgotten to inform the customer of a changed bank account number, but it could be a potential case of fraude.
+Human intervention is preferred in this case to prevent potential fraud cases.
+The customer contacts the supplier to 
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | UQ		| Mandatory
+6 	    | Invoice Response			        | AP		| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+The processing of the invoice has been halted by the customer. Customer will verify the new information with the supplier.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Bank account number in invoice does not match known bank account number.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+Customer changes bank account information in ERP system after contacting the supplier.
+Customer accepts the invoice based on the new information.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AP</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Bank account number in invoice does not match known bank account number.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+
 ### 5.2 Failures and rejecting invoices
 
-The following subsections each describe a scenario where a failure occurs in the process of delivering the invoice to the customeran invoice gets rejected
+The following subsections each describe a scenario where a failure occurs in the process of delivering or processing the invoice.
 
 #### 5.2.1 Syntax incorrect and/or schematron error
 
@@ -348,14 +418,16 @@ The serviceprovider of the customer (C3) rejects the invoice by sending a Messag
 > Note: In theory this scenario should not happen. Peppol compliancy policy states that a "... sender is accountable for the technical correctness and quality of the submitted business documents and shall ensure that submitted business documents are valid according to the relevant specification...".
 
 **Feedback cycle**
-Step 	| Message                		| Status	| Use
---- 	| ---                    		| ---     	| ---
-1 	| Transport Acknowledgement       	| OK		| Mandatory
-2 	| Message Level Response 		| AB		| Optional
-3 	| Message Level Response		| RE		| Mandatory
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | RE		| Mandatory
 
 
 **Example Message Level Response content**
+
 ```XML
 <cac:DocumentResponse>
   <cac:Response>
@@ -389,10 +461,10 @@ Supplier (C1) sends a correct invoice, but the serviceprovider of the customer (
 
 Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
-1 	| Transport Acknowledgement       	| OK		| Mandatory
-2 	| Message Level Response 		| AB		| Optional
-3 	| Message Level Response		| AP		| Mandatory
-4 	| Invoice Response 			| Any 		| Failed to send within 1 hour
+1 	    | Transport Acknowledgement     | OK		| Mandatory
+2 	    | Message Level Response 		| AB		| Optional
+3 	    | Message Level Response		| AP		| Mandatory
+4 	    | Invoice Response 			    | Any 		| Failed to send within 1 hour
 
 ##### 5.2.3 Invoice fails 3-way matching - Rejecting the invoice
 
@@ -402,15 +474,17 @@ A supplier (C1) sends an invoice that contains a purchase order number that cann
 The customer decides to reject the invoice and asks the supplier to reissue an invoice with the correct purchase order number.
 
 **Feedback cycle**
+
 Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
-1 	| Transport Acknowledgement       	| OK		| Mandatory
-2 	| Message Level Response 		| AB		| Optional
-3 	| Message Level Response		| AP		| Mandatory
-4 	| Invoice Response 			| AB 		| Optional
-5 	| Invoice Response			| RE		| Mandatory
-
+1 	    | Transport Acknowledgement     | OK		| Mandatory
+2 	    | Message Level Response 		| AB		| Optional
+3 	    | Message Level Response		| AP		| Mandatory
+4 	    | Invoice Response 			    | AB 		| Optional
+5 	    | Invoice Response			    | RE		| Mandatory
+    
 **Example Invoice Response content**
+
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
@@ -437,16 +511,18 @@ Resolving the issue leads to a rejection of the invoice.
 See 5.1.2 for the same scenario that leads to acceptance.
 
 **Feedback cycle**
-Step 	| Message                		| Status	| Use
---- 	| ---                    		| ---     	| ---
-1 	| Transport Acknowledgement       	| OK		| Mandatory
-2 	| Message Level Response 		| AB		| Optional
-3 	| Message Level Response		| AP		| Mandatory
-4 	| Invoice Response 			| AB 		| Optional
-5 	| Invoice Response			| UQ		| Mandatory
-6 	| Invoice Response			| RE		| Mandatory
 
-Example Invoice Response Content
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | UQ		| Mandatory
+6 	    | Invoice Response			        | RE		| Mandatory
+
+**Example Invoice Response Content**
+
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
@@ -454,6 +530,17 @@ Example Invoice Response Content
 </cac:Response>
 ```
 
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Purchase order number is invalid. The format should be POnnnnnn</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
 
 ```XML
 <cac:Response>
@@ -471,19 +558,221 @@ Example Invoice Response Content
 </cac:Response>
 ```
 
+
 #### 5.2.5 Bank account details not matching
 
+**Scenario**
+
+A supplier (C1) sends an invoice that contains a bank account number that is not known in the supplier master data of the customer (C4).
+The supplier has probably forgotten to inform the customer of a changed bank account number, but it could be a potential case of fraude.
+As the information provided on an invoice should not be used to update the supplier master data in the ERP system of the customer, a customer can reject the invoice when validating the bank account number.
+Human intervention is preferred in this case to prevent potential fraud cases.
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | UQ		| Mandatory
+6 	    | Invoice Response			        | RE		| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+The processing of the invoice has been halted by the customer. Customer will verify the new information with the supplier.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Bank account number in invoice does not match known bank account number.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+Supplier has used wrong bank account number or a case of fraude has been detected.
+Customer rejects the invoice.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">REF</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Bank account number in invoice does not match known bank account number.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
 
 #### 5.2.6 Supplier uknown in customer master data
 
+**Scenario**
+
+A supplier (C1) sends an invoice that a customer (C4), but the supplier is unknown to the customer.
+The supplier details cannot be match with any of the supplier master data in the ERP system of the customer.
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | RE		| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+Customer rejects the invoice based on not finding a match in the supplier master data.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">UNR</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
 
 #### 5.2.7 Payment terms or invoice due date not as expected
 
+**Scenario**
+
+When the payment terms or payment due date on an invoice is not what C4 expects, C4 may choose to follow up with C1 out of channel (UQ), or proceed to payment as per agreed payment terms.
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | UQ		| Mandatory
+6 	    | Invoice Response			        | RE		| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+The processing of the invoice has been halted by the customer. 
+Customer will contact the supplier outside the channel to discuss the difference in payment terms and asks the supplier to resend the invoice.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+Customer rejects the invoice based on the supplier not using the agreed payment terms. 
+
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->	
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
 
 #### 5.2.8 Delivery of goods
 
+**Scenario**
+
+Customer 
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	    | Transport Acknowledgement       	| OK		| Mandatory
+2 	    | Message Level Response 		    | AB		| Optional
+3 	    | Message Level Response		    | AP		| Mandatory
+4 	    | Invoice Response 			        | AB 		| Optional
+5 	    | Invoice Response			        | UQ		| Mandatory
+6 	    | Invoice Response			        | RE		| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+Customer rejects the invoice based on not finding a match in the supplier master data.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->	
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
 
 #### 5.2.9 Duplicate invoice
+
 
 
 #### 5.2.10 VAT incorrect
@@ -494,8 +783,8 @@ Example Invoice Response Content
 
 Limitations and other remarks that are relevant for this process
 
-Item 	| Description                		|
---- 	| ---                    		|
-1 	| IN order to implement the Invoice Response processes the integration with the ERP/Financial system in corner 4 is essential for the reliability of the Peppol network. |
-2 	| 																					 |
+Item 	| Description                		                                                                                                                                        |
+--- 	| ---                    		                                                                                                                                            |
+1 	    | IN order to implement the Invoice Response processes the integration with the ERP/Financial system in corner 4 is essential for the reliability of the Peppol network.    |
+2 	    | 																					                                                                                        |
 
