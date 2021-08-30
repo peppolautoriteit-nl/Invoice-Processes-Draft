@@ -73,7 +73,7 @@ These responses may inform someone up-line that the delivery to a given point wa
 The key nature of these responses is that they do not in any way act on result of validation or processing of the content of the payload that is being transported.
 These response messages are commonly called “acks”.
 Thus, unlike a Message Level Response and Invoice Response, a Transport Acknowledgement is not a document that is exchanged over the network.
-The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefor also of the (invoicing) process.
+The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefore also of the (invoicing) process.
 
 > For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/] and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
@@ -108,6 +108,14 @@ graph LR
 ## 3 Best practices
 
 ### 3.1 Transport Level Response
+
+Apart from the default transport-level errors as defined by the CEF eDelivery AS4 profile, the Peppol AS4 profile only specifies one additional transport-level error message, EBMS:0004 with errorDetail PEPPOL:NOT_SERVICED. This error is to be used if either the recipient is not known to the receiving access point, or the recipient does not support the specific document type or business process. The profile states the following:
+
+> If a MSH is able to execute custom validations of the payload of a User Message during the ebMS message processing, it is RECOMMENDED that the Access Point includes the check on the addressee, document type id and process id. In case the addressed participant is not serviced for the specific document type and process by the Access Point, it MUST generate and send back an ebMS Error.
+
+This is a conflicting requirement: the RECOMMENDED keyword states the check is optional, but the MUST keyword makes the check mandatory.
+
+In either way, the best practice is to always perform these checks, as there is no way to deliver a document to a recipient that is not known to the receiving access point. If no transport-level error would be returned, the sending access point would be unaware that the document is not delivered, and the document would get lost.
 
 ### 3.2 Message Level Response
 
@@ -410,7 +418,19 @@ Customer accepts the invoice based on the new information.
 
 The following subsections each describe a scenario where a failure occurs in the process of delivering or processing the invoice.
 
-#### 5.2.1 Transport error or rejection
+#### 5.2.1 Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
+
+**Scenario**
+
+Supplier (C1) sends an invoice through their service provider (C2). Due to a problem in either an SMP publication or the endpoint lookup process, the service provider attempts to send the document to a service provider that is not servicing C4.
+
+In case the recipient is unknown to the receiving service provider, or the document type or business process is not supported by this recipient, the Peppol AS4 profile states that the receiving access point must send back an error. The errorCode is EBMS:0004 (Other Error) and the errorDetail is "PEPPOL:NOT_SERVICED".
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status							| Use
+--- 	| ---                    		    | ---     							| ---
+1   	| Transport error        		    | EBMS:0004, PEPPOL:NOT_SERVICED	| Mandatory
 
 #### 5.2.2 Syntax incorrect and/or schematron error
 
