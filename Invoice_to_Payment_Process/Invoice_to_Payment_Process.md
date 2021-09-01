@@ -119,6 +119,20 @@ In either way, the best practice is to always perform these checks, as there is 
 
 ### 3.2 Message Level Response
 
+#### 3.2.3 Status codes
+
+The PEPPOL BIS Message Level Response supports a number of optional and mandatory status codes.
+In order to have a proper understanding of the status in the process there is a strict order in which the status codes need to be used.
+The order is shown in the table below.
+
+
+| Status Code   | UNECE name                | BIS usage               					| Clarification on requirements | Mandatory | Final |
+|--             |----                       |----------               					|--                             |--         |--     |
+| AB            | Message acknowledgement   | Document received by ServiceProvider			| NO                            | YES       | NO    |
+| RE            | Rejected                  | Rejected, document did not pass schematron validation	| YES                           | YES       | YES   |
+| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | YES       | YES   |
+
+
 ### 3.3 Invoice Response
 
 #### 3.3.1 Scope
