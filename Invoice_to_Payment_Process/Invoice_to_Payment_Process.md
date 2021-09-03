@@ -798,14 +798,16 @@ Customer will contact the supplier outside the channel to discuss the delivery o
 </cac:Response>
 ```
 
+Customer rejects the invoice based on the supplier not delivering the goods according to the agreed conditions.
+
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
   <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
   <cac:Status>
-    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <cbc:StatusReasonCode listID="OPStatusReason">DEL</cbc:StatusReasonCode>
     <!--using the free text field to provide detailed description-->
-    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+    <cbc:StatusReason>Goods specified on the invoice were not received.</cbc:StatusReason>
   </cac:Status>
   <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
