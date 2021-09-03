@@ -757,18 +757,22 @@ Customer rejects the invoice based on the supplier not using the agreed payment 
 
 **Scenario**
 
-Customer
+A supplier (C1) sends an invoice that a customer (C4), but the delivery of the goods was not according to the agreed conditions.
+For example: 
+- the goods specified on the invoice were not received
+- the goods were delivered to a wrong location
+- the goods are delivered outside of the delivery times, which attracts penalty
 
 **Feedback cycle**
 
 Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
-1 	    | Transport Acknowledgement       	| OK		| Mandatory
-2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
-4 	    | Invoice Response 			        | AB 		| Optional
-5 	    | Invoice Response			        | UQ		| Mandatory
-6 	    | Invoice Response			        | RE		| Mandatory
+1 	| Transport Acknowledgement       	    | OK	| Mandatory
+2 	| Message Level Response 		        | AB	| Optional
+3 	| Message Level Response		        | AP	| Mandatory
+4 	| Invoice Response 			            | AB 	| Optional
+5 	| Invoice Response			            | UQ	| Mandatory
+6 	| Invoice Response			            | RE	| Mandatory
 
 **Example Invoice Response Content**
 
@@ -779,16 +783,17 @@ Step 	| Message                		    | Status	| Use
 </cac:Response>
 ```
 
-Customer rejects the invoice based on not finding a match in the supplier master data.
+The processing of the invoice has been halted by the customer.
+Customer will contact the supplier outside the channel to discuss the delivery of the goods and asks the supplier to resend the invoice.
 
 ```XML
 <cac:Response>
   <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
   <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
   <cac:Status>
-    <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
+    <cbc:StatusReasonCode listID="OPStatusReason">DEL</cbc:StatusReasonCode>
     <!--using the free text field to provide detailed description-->
-    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+    <cbc:StatusReason>Goods specified on the invoice were not received.</cbc:StatusReason>
   </cac:Status>
 </cac:Response>
 ```
