@@ -897,7 +897,7 @@ Customer will contact the supplier outside the channel to discuss the used VAT c
 </cac:Response>
 ```
 
-Customer rejects the invoice based on the supplier not delivering the goods according to the agreed conditions.
+Customer rejects the invoice based on the supplier using an incorrect VAT code for an invoiced product.
 
 ```XML
 <cac:Response>
