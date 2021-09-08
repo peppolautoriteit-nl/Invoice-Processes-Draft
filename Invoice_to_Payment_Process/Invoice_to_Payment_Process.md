@@ -729,7 +729,7 @@ Customer will contact the supplier outside the channel to discuss the difference
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
     <!--using the free text field to provide detailed description-->
-    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+    <cbc:StatusReason>The agreed payment term should be XXX.</cbc:StatusReason>
   </cac:Status>
 </cac:Response>
 ```
@@ -744,7 +744,7 @@ Customer rejects the invoice based on the supplier not using the agreed payment 
   <cac:Status>
     <cbc:StatusReasonCode listID="OPStatusReason">PAY</cbc:StatusReasonCode>
     <!--using the free text field to provide detailed description-->
-    <cbc:StatusReason>The agree payment term should be XXX.</cbc:StatusReason>
+    <cbc:StatusReason>The agreed payment term should be XXX.</cbc:StatusReason>
   </cac:Status>
   <!--including an action code to request the sender to send another invoice-->
   <cac:Status>
