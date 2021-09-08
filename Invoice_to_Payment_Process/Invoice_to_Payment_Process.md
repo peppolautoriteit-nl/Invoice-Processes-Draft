@@ -6,7 +6,7 @@ A common concern expressed by sellers and their service providers is the lack of
 Additionally, there is a lack of understanding of the different options or system triggers for automated invoice status communication via Peppol, i.e. using the Peppol Invoice Response message.
 
 Both national and international end users as well as service providers express a broad support for the implementation of status messages, with most feedback indicating that it is vital to the success of the network.
-In response to this The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in  2021.
+In response to this The Netherlands Peppol Authority will make the implementation and use of the Message Level Response and Invoice Response part of the Dutch Peppol scheme in  2022.
 This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
 The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
