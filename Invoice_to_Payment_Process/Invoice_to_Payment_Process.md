@@ -703,12 +703,12 @@ When the payment terms or payment due date on an invoice is not what C4 expects,
 
 Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
-1 	    | Transport Acknowledgement       	| OK		| Mandatory
-2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
-4 	    | Invoice Response 			        | AB 		| Optional
-5 	    | Invoice Response			        | UQ		| Mandatory
-6 	    | Invoice Response			        | RE		| Mandatory
+1 	| Transport Acknowledgement       	    | OK	| Mandatory
+2 	| Message Level Response 		    | AB	| Optional
+3 	| Message Level Response		    | AP	| Mandatory
+4 	| Invoice Response 			    | AB 	| Optional
+5 	| Invoice Response			    | UQ	| Mandatory
+6 	| Invoice Response			    | RE	| Mandatory
 
 **Example Invoice Response Content**
 
@@ -761,18 +761,18 @@ A supplier (C1) sends an invoice that a customer (C4), but the delivery of the g
 For example: 
 - the goods specified on the invoice were not received
 - the goods were delivered to a wrong location
-- the goods are delivered outside of the delivery times, which attracts penalty
+- the goods are delivered outside of the delivery times, which attracts a penalty
 
 **Feedback cycle**
 
 Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	| Transport Acknowledgement       	    | OK	| Mandatory
-2 	| Message Level Response 		        | AB	| Optional
-3 	| Message Level Response		        | AP	| Mandatory
-4 	| Invoice Response 			            | AB 	| Optional
-5 	| Invoice Response			            | UQ	| Mandatory
-6 	| Invoice Response			            | RE	| Mandatory
+2 	| Message Level Response 		    | AB	| Optional
+3 	| Message Level Response		    | AP	| Mandatory
+4 	| Invoice Response 			    | AB 	| Optional
+5 	| Invoice Response			    | UQ	| Mandatory
+6 	| Invoice Response			    | RE	| Mandatory
 
 **Example Invoice Response Content**
 
@@ -818,11 +818,102 @@ Customer rejects the invoice based on the supplier not delivering the goods acco
 
 #### 5.2.10 Duplicate invoice
 
+**Scenario**
 
+A supplier (C1) sends an invoice that a customer (C4) containing an invoice number that was already received by the customer from this supplier.
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	| Transport Acknowledgement       	    | OK	| Mandatory
+2 	| Message Level Response 		    | AB	| Optional
+3 	| Message Level Response		    | AP	| Mandatory
+4 	| Invoice Response 			    | AB 	| Optional
+5 	| Invoice Response			    | RE	| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+Customer rejects the invoice based on the supplier not delivering the goods according to the agreed conditions.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Duplicate invoice.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
 
 #### 5.2.11 VAT incorrect
 
+**Scenario**
 
+A supplier (C1) sends an invoice to a customer (C4) containing a product with a VAT code that does not match the VAT code in the system of the customer.
+Most likely this will also lead to a difference between the expected amount to be paid and the invoiced amount.
+
+**Feedback cycle**
+
+Step 	| Message                		    | Status	| Use
+--- 	| ---                    		    | ---     	| ---
+1 	| Transport Acknowledgement       	    | OK	| Mandatory
+2 	| Message Level Response 		    | AB	| Optional
+3 	| Message Level Response		    | AP	| Mandatory
+4 	| Invoice Response 			    | AB 	| Optional
+5 	| Invoice Response			    | UQ	| Mandatory
+6 	| Invoice Response			    | RE	| Mandatory
+
+**Example Invoice Response Content**
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">AB</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+</cac:Response>
+```
+
+The processing of the invoice has been halted by the customer.
+Customer will contact the supplier outside the channel to discuss the used VAT code.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">UQ</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Unexpected/incorrect VAT code for product xxx.</cbc:StatusReason>
+  </cac:Status>
+</cac:Response>
+```
+
+Customer rejects the invoice based on the supplier not delivering the goods according to the agreed conditions.
+
+```XML
+<cac:Response>
+  <cbc:ResponseCode listID="UNCL4343OpSubset">RE</cbc:ResponseCode>
+  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusReason">OTH</cbc:StatusReasonCode>
+    <!--using the free text field to provide detailed description-->
+    <cbc:StatusReason>Incorrect VAT code for product xxx.</cbc:StatusReason>
+  </cac:Status>
+  <!--including an action code to request the sender to send another invoice-->
+  <cac:Status>
+    <cbc:StatusReasonCode listID="OPStatusAction">NIN</cbc:StatusReasonCode>
+  </cac:Status>
+</cac:Response>
+```
 
 ## 6 Remarks
 
