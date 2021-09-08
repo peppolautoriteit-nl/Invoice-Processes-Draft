@@ -75,7 +75,7 @@ These response messages are commonly called “acks”.
 Thus, unlike a Message Level Response and Invoice Response, a Transport Acknowledgement is not a document that is exchanged over the network.
 The reason Transport acknowledgements are explicitly mentioned in this document is that they are a key element of the feedback cycle and therefore also of the (invoicing) process.
 
-> For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications|https://docs.peppol.eu/edelivery/as4/specification/] and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
+> For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications](https://docs.peppol.eu/edelivery/as4/specification/) and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
 ### 2.3 Message Level Response
 When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic.
@@ -139,7 +139,7 @@ The order is shown in the table below.
 
 The scope of the Invoice Response is:
 
-1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the [Peppol business documentation|https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/]. The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
+1. The Invoice Response Message uses PEPPOL BIS Invoice Response 3.1 (see this link for the [Peppol business documentation](https://docs.peppol.eu/poacc/upgrade-3/profiles/63-invoiceresponse/). The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
 2. The Invoice Response Message is sent by the customer AP to the supplier AP conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to an invoice message sent by the supplier AP.
 3. The actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems.
 4. The business meaning of the invoice status remains the same through the entire chain (e.g. the definition of the status ‘Accepted’ is the same in the entire chain).
