@@ -357,8 +357,8 @@ Buyer gives final approval of the invoice.
 **Scenario**
 
 A supplier (C1) sends an invoice that contains a purchase order number that cannot be matched to a purchase order number for the supplier in the ERP system of the customer (C4).
-The customer decides to not reject the invoice, but instead contacts the supplier to discuss the issue.
-Resolving the issue leads to a rejection of the invoice.
+The customer decides to contact the supplier to discuss the issue outside the channel.
+Resolving the issue leads to acceptance of the invoice.
 
 **Feedback cycle**
 
