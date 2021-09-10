@@ -132,25 +132,27 @@ The scope of the Message Level Response is:
 	* Validation error of type fatal error.
 	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors).
 	* Wrong version of business document if not detected during transport (Will be handled like validation error of type fatal error).
-5. Can be used to indicate delivery failures between C3 and C4 when the MLR is mandatory and there is no reject or accept send by MLR within a specific time (1 hour). This is a sugestion and depending on the fact the MLR is mandatory and acknowledge us used.
+5. Should not be used to indicate delivery failures between C3 and C4. This can be a motivation to start using the invoice response to get information about the delivery to C4. This topic will be discussed within an OpenPeppol workgroup.
 
-#### 3.2.2 Response
+#### 3.2.2 Response and status codes
 
-When the MLR is mandatory:
+1. The support of a Message Level Response is mandatory for Serviceproviders that offer services to Dutch endusers.
+2. Dutch endusers must support receiving a Message Level Response.
+3. The sending of a Message Level Response is mandatory when C1 is supporting the Message Level Response.
 
-1. Acknowledging (AB) must be send if validation and delivery are separate processes.
-2. Acceptance (AP) must be send if there are no technical errors. If the MLR is also used to report problems between C3 and C4 the document must be technicaly received by customer C4.
-3. Reject (RE)  must be send if there are technical errors.
+The PEPPOL BIS Message Level Response supports a number of optional and mandatory status codes.
+In order to have a proper understanding of the status in the process there is a strict order in which the status codes need to be used.
+The order is shown in the table below.
 
-When the MLR is not mandatory and MLR is registered for sender:
-
-1. Acknowledging (AB) may be send if validation and delivery are separate processes.
-2. Acceptance (AP) may be send if there are no technical errors. If the MLR is also used to report problems between C3 and C4 the document must be technicaly received by customer C4.
-3. Reject (RE)  may be send if there are technical errors.
+| Status Code   | UNECE name                | BIS usage               					| Clarification on requirements | Mandatory 	| Final |
+|--             |----                       |----------               					|--                             |--         	|--     |
+| AB            | Message acknowledgement   | Document received by ServiceProvider			| NO                            | NO		| NO    |
+| RE            | Rejected                  | Rejected, document did not pass schematron validation	| YES                           | YES       	| YES   |
+| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | YES       	| YES   |
 
 #### 3.2.3 Routing
 
-The MLR is a business document indicating the technical status of a document send to the sender of the document. The MLR refers to the instance Identifier of the envelop of the document sent. The  instance Identifier must be stored during creation of the document to be able to handle the returned MLR. When the sender AP creates the envelop and does not share the instance Identifier with the original sender the MLR can only be handled by the original sender AP. To be able to receive the MLR, the original sender AP must be registerd as ServiceEndpointList/Endpoint in the original sender indentifier SMP records for MLR documents. If the sender AP does not own the SMP records for the sender indentifier the AP must ask the owner of the identifier to register the MLR document.
+The MLR is a business document indicating the technical status of a document sent to the sender of the document. The MLR refers to the instance Identifier of the envelop of the document sent. The instance Identifier must be stored during creation of the document to be able to handle the returned MLR. When the sender AP creates the envelop and does not share the instance Identifier with the original sender the MLR can only be handled by the original sender AP. To be able to receive the MLR, the original sender AP must be registered as ServiceEndpointList/Endpoint in the original sender indentifier SMP records for MLR documents. If the sender AP does not own the SMP records for the sender indentifier the AP must ask the owner of the identifier to register the MLR document.
 
 It is bad practise to point the Sender or Receiver other than indicating the original sender or original receiver in the SDB envelop. The SBD envelop may be used outside the scope of the AP’s.
 
@@ -159,24 +161,8 @@ It is bad practise to point the Sender or Receiver other than indicating the ori
 | Envelope of document sent                 | MLR                                                 |
 |-----                                      |------                                               |
 | Sender/Identifier                         | cac:SenderParty/cbc:EndpointID                      |
-| Receiver/Identifier	                    |cac:ReceiverParty/cbc:EndpointID                     |
+| Receiver/Identifier	                    | cac:ReceiverParty/cbc:EndpointID                    |
 | DocumentIdentification/InstanceIdentifier | cac:DocumentResponse/cac:DocumentReference/cbc:ID   |
-
-
-
-#### 3.2.5 Status codes
-
-The PEPPOL BIS Message Level Response supports a number of optional and mandatory status codes.
-In order to have a proper understanding of the status in the process there is a strict order in which the status codes need to be used.
-The order is shown in the table below.
-
-
-| Status Code   | UNECE name                | BIS usage               					| Clarification on requirements | Mandatory 	| Final |
-|--             |----                       |----------               					|--                             |--         	|--     |
-| AB            | Message acknowledgement   | Document received by ServiceProvider			| NO                            | NO		| NO    |
-| RE            | Rejected                  | Rejected, document did not pass schematron validation	| YES                           | YES       	| YES   |
-| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | YES       	| YES   |
-
 
 ### 3.3 Invoice Response
 
