@@ -12,7 +12,7 @@ The technical implications of the implementation of the Message Level Response a
 
 ## 2 Process description
 
-1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the customer (also refered to as buyer). The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
+1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the customer (also referred to as buyer). The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
 2.	The serviceprovider of the supplier (corner 2) recognizes the customer (corner 4) and customer’s serviceprovider (corner 3) by resolving the identifier within the invoice document.
 3.	The serviceprovider of the supplier might need to transform the invoice to a registered Invoice document type before validating the invoice according to agreed specifications.
 4.	The serviceprovider of the supplier wraps the validated invoice in an envelope and sends the message on behalf of the supplier to the serviceprovider of the customer by using the Peppol mechanism (including a signed MDN process).
@@ -227,7 +227,7 @@ xml                                           | attributes => version="1.0" enco
 ApplicationResponse                           |                                                                                                   | 1..1          |               |
 :black_medium_small_square: cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:mlr:3                                                                | 1..1          | Identifier    |
 :black_medium_small_square: cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:mlr:3                                                                 | 1..1          | Identifier    |
-:black_medium_small_square: cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Message Level Response.
+:black_medium_small_square: cbc:ID                                    | Unique identification transaction                                                                   | 1..1          | Identifier    | Identification of the Message Level Response.
 :black_medium_small_square: cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Message Level Response issue date
 :black_medium_small_square: cbc:IssueTime                             | 13:34:32                                                                                          | 0..1          | Time          | Message Level Response issue time
 :black_medium_small_square: cac:SenderParty                           |                                                                                                   | 1..1          |               | Sender information
@@ -262,7 +262,7 @@ xml                                           | attributes => version="1.0" enco
 ApplicationResponse                           |                                                                                                   | 1..1          |               |
 :black_medium_small_square: cbc:CustomizationID                       | urn:fdc:peppol.eu:poacc:trns:invoice_response:3                                                   | 1..1          | Identifier    |
 :black_medium_small_square: cbc:ProfileID                             | urn:fdc:peppol.eu:poacc:bis:invoice_response:3                                                    | 1..1          | Identifier    |
-:black_medium_small_square: cbc:ID                                    | Unieke identificatie transactie                                                                   | 1..1          | Identifier    | Identification of the Invoice Response message.
+:black_medium_small_square: cbc:ID                                    | Unique identification transaction                                                                   | 1..1          | Identifier    | Identification of the Invoice Response message.
 :black_medium_small_square: cbc:IssueDate                             | 10-2-2021                                                                                         | 1..1          | Date          | Invoice Response issue date
 :black_medium_small_square: cbc:IssueTime                             | 13:34:32                                                                                          | 0..1          | Time          | Invoice Response issue time
 :black_medium_small_square: cbc:Note                                  | Please contact Joop Jansen for any additional questions                                           | 0..1          | Text          | General comments or instructions that are relevant to the response as a whole
