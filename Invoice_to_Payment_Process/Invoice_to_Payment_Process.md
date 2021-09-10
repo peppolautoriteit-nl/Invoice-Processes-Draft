@@ -17,7 +17,7 @@ The technical implications of the implementation of the Message Level Response a
 3.	The serviceprovider of the supplier might need to transform the invoice to a registered Invoice document type before validating the invoice according to agreed specifications.
 4.	The serviceprovider of the supplier wraps the validated invoice in an envelope and sends the message on behalf of the supplier to the serviceprovider of the customer by using the Peppol mechanism (including a signed MDN process).
 5.	The serviceprovider of the customer acknowledges the receival of the message by sending a Transport acknowledgement to the serviceprovider of the supplier.
-6.	The serviceprovider of the customer unwraps the message and acknowledges or rejects the invoice based on syntactical and semantical rules by sending a Message Level Response to the serviceprovider of the supplier.
+6.	The serviceprovider of the customer might unwrap the message and acknowledges or rejects the invoice based on syntactical and semantical rules by sending a Message Level Response to the serviceprovider of the supplier.
 7.	The serviceprovider of the customer might transform a validated invoice to the invoice document type that can be processed by the invoice control system of the customer before sending it to the customer through the implemented secure channel.
 8.	The customer receives the invoice and processes it in the invoice control system leading to one of the following results:
     * The customer fully approves the invoice, posts it in the accounting system and passes it on to be paid.
