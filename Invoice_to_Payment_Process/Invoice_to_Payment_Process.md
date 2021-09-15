@@ -318,6 +318,15 @@ ApplicationResponse                           |                                 
 
 This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
+Type 		| Scenario name 			 
+---  		| ---					 
+Acceptance	| Direct acceptance			
+		| Invoice fails 3-way matching
+		| Invoice fails bank account number
+Rejection	| Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
+		| Example
+
+
 ### 5.1 Accepting invoices
 
 ##### 5.1.1 Direct acceptance
