@@ -318,18 +318,28 @@ ApplicationResponse                           |                                 
 
 This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
-Type 		| Scenario name 			 
----  		| ---					 
-Acceptance	| Direct acceptance			
-		| Invoice fails 3-way matching
-		| Invoice fails bank account number
-Rejection	| Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
-		| Example
+Type 			| Scenario name 			 
+---  			| ---					 
+:heavy_check_mark:	| [Direct acceptance](#511)			
+:heavy_check_mark:	| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance](#512)
+:heavy_check_mark:	| [Invoice fails bank account number](#513)
+:x:			| [Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process](#521)
+:x:			| [Syntax incorrect and/or schematron error](#522)
+:x:			| [Unable to deliver invoice to customer](#523)
+:x:			| [Invoice fails 3-way matching - Rejecting the invoice](#524)
+:x:			| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection](#525)
+:x:			| [Bank account details not matching](#526)
+:x:			| [Supplier unknown in customer master data](#527)
+:x:			| [Payment terms or invoice due date not as expected](#528)
+:x:			| [Incorrect delivery of goods](#529)
+:x:			| [Duplicate invoice](#5210)
+:x:			| [VAT incorrect](#5211)
 
 
-### 5.1 Accepting invoices
 
-##### 5.1.1 Direct acceptance
+### <a name="51"></a>5.1 Accepting invoices
+
+##### <a name="511"></a>5.1.1 Direct acceptance
 
 **Scenario**
 
@@ -361,7 +371,7 @@ Buyer gives final approval of the invoice.
 </cac:Response>
 ```
 
-##### 5.1.2 Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance
+##### <a name="512"></a>5.1.2 Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance
 
 **Scenario**
 
@@ -409,7 +419,7 @@ Customer accepts the invoice based on additional information received from the s
 </cac:Response>
 ```
 
-##### 5.1.3 Invoice fails bank account number - Follow up with C1 out of channel leading to acceptance
+##### <a name="513"></a>5.1.3 Invoice fails bank account number - Follow up with C1 out of channel leading to acceptance
 
 **Scenario**
 
@@ -468,11 +478,11 @@ Customer accepts the invoice based on the new information.
 ```
 
 
-### 5.2 Failures and rejecting invoices
+### <a name="52"></a>5.2 Failures and rejecting invoices
 
 The following subsections each describe a scenario where a failure occurs in the process of delivering or processing the invoice.
 
-#### 5.2.1 Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
+#### <a name="521"></a>5.2.1 Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
 
 **Scenario**
 
@@ -486,7 +496,7 @@ Step 	| Message                		    | Status							| Use
 --- 	| ---                    		    | ---     							| ---
 1   	| Transport error        		    | EBMS:0004, PEPPOL:NOT_SERVICED	| Mandatory
 
-#### 5.2.2 Syntax incorrect and/or schematron error
+#### <a name="522"></a>5.2.2 Syntax incorrect and/or schematron error
 
 **Scenario**
 
@@ -531,7 +541,7 @@ Step 	| Message                		    | Status	| Use
 </cac:DocumentResponse>
 ```
 
-#### 5.2.3 Unable to deliver invoice to customer
+#### <a name="523"></a>5.2.3 Unable to deliver invoice to customer
 
 **Scenario**
 
@@ -544,7 +554,7 @@ Step 	| Message                		| Status	| Use
 3 	    | Message Level Response		| AP		| Mandatory
 4 	    | Invoice Response 			    | Any 		| Failed to send within 1 hour
 
-##### 5.2.4 Invoice fails 3-way matching - Rejecting the invoice
+##### <a name="524"></a>5.2.4 Invoice fails 3-way matching - Rejecting the invoice
 
 **Scenario**
 
@@ -579,7 +589,7 @@ Step 	| Message                		| Status	| Use
 </cac:Response>
 ```
 
-##### 5.2.5 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
+##### <a name="525"></a>5.2.5 Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection
 
 **Scenario**
 
@@ -637,7 +647,7 @@ Step 	| Message                		    | Status	| Use
 ```
 
 
-#### 5.2.6 Bank account details not matching
+#### <a name="526"></a>5.2.6 Bank account details not matching
 
 **Scenario**
 
@@ -695,7 +705,7 @@ Customer rejects the invoice.
 </cac:Response>
 ```
 
-#### 5.2.7 Supplier unknown in customer master data
+#### <a name="527"></a>5.2.7 Supplier unknown in customer master data
 
 **Scenario**
 
@@ -733,7 +743,7 @@ Customer rejects the invoice based on not finding a match in the supplier master
 </cac:Response>
 ```
 
-#### 5.2.8 Payment terms or invoice due date not as expected
+#### <a name="528"></a>5.2.8 Payment terms or invoice due date not as expected
 
 **Scenario**
 
@@ -793,7 +803,7 @@ Customer rejects the invoice based on the supplier not using the agreed payment 
 </cac:Response>
 ```
 
-#### 5.2.9 Delivery of goods
+#### <a name="529"></a>5.2.9 Incorrect delivery of goods
 
 **Scenario**
 
@@ -856,7 +866,7 @@ Customer rejects the invoice based on the supplier not delivering the goods acco
 </cac:Response>
 ```
 
-#### 5.2.10 Duplicate invoice
+#### <a name="5210"></a>5.2.10 Duplicate invoice
 
 **Scenario**
 
@@ -895,7 +905,7 @@ Customer rejects the invoice based on the supplier not delivering the goods acco
 </cac:Response>
 ```
 
-#### 5.2.11 VAT incorrect
+#### <a name="5211"></a>5.2.11 VAT incorrect
 
 **Scenario**
 
