@@ -4,20 +4,47 @@
 
 1. [Introduction](#1)
 2. [Process description](#2)
+
 	2.1 [Invoice](#21)
+
+
 	2.2 [Transport acknowledgement or error/failure](#22)
+
+
 	2.3 [Message Level Response](#23)
+
+
 	2.4 [Invoice Responses](#24)
+
+
 3. [Best practices](#3)
+
+
 	3.1 [Transport Level Response](#31)
+
+
 	3.2 [Message Level Response](#32)
+
+
 	3.3 [Invoice Response](#33)
+
+
 4. [Message definitions](#4)
+
 	4.1 [Message Level Response 3.0](#41)
+
+
 	4.2 [Invoice Response transaction 3.1](#42)
+
+
 5. [Invoice scenarios](#5)
+
 	5.1 [Accepting invoices](#51)
+
+
 	5.2 [Failures and rejecting invoices](#52)
+
+
 6. [Remarks](#6)
 
 ## <a name="1"></a>1 Introduction
@@ -985,7 +1012,7 @@ Customer rejects the invoice based on the supplier using an incorrect VAT code f
 </cac:Response>
 ```
 
-## 6 Remarks
+## <a name="6"></a>6 Remarks
 
 Limitations and other remarks that are relevant for this process
 
