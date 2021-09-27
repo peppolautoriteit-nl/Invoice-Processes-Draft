@@ -1,6 +1,26 @@
 # Guideline for implementation of invoice to payment process
 
-## 1 Introduction
+## Table of contents
+
+1. [Introduction](#1)
+2. [Process description](#2)
+	2.1 [Invoice](#21)
+	2.2 [Transport acknowledgement or error/failure](#22)
+	2.3 [Message Level Response](#23)
+	2.4 [Invoice Responses](#24)
+3. [Best practices](#3)
+	3.1 [Transport Level Response](#31)
+	3.2 [Message Level Response](#32)
+	3.3 [Invoice Response](#33)
+4. [Message definitions](#4)
+	4.1 [Message Level Response 3.0](#41)
+	4.2 [Invoice Response transaction 3.1](#42)
+5. [Invoice scenarios](#5)
+	5.1 [Accepting invoices](#51)
+	5.2 [Failures and rejecting invoices](#52)
+6. [Remarks](#6)
+
+## <a name="1"></a>1 Introduction
 
 A common concern expressed by sellers and their service providers is the lack of confirmation on whether the buyer has accepted or rejected the invoice. This could result in sellers contacting the buyer out-of-band or incorrectly re-sending invoices.
 Additionally, there is a lack of understanding of the different options or system triggers for automated invoice status communication via Peppol, i.e. using the Peppol Invoice Response message.
@@ -10,7 +30,7 @@ In response to this The Netherlands Peppol Authority will make the implementatio
 This document describes the invoice process and points out which role the Message Level Response and Invoice Response play within this process.
 The technical implications of the implementation of the Message Level Response and Invoice Response are currently included in this document, but might be moved to a separate document.
 
-## 2 Process description
+## <a name="2"></a>2 Process description
 
 1.	A supplier (corner 1) issues and initiates the invoice process by issuing an invoice addressed to the Peppol identifier of the customer (also referred to as buyer). The supplier must have a secure channel to send the invoice to his/her own Peppol serviceprovider (corner 2). Within Peppol terminology, the serviceprovider is also defined as “Access Point”.
 2.	The serviceprovider of the supplier (corner 2) recognizes the customer (corner 4) and customer’s serviceprovider (corner 3) by resolving the identifier within the invoice document.
@@ -48,7 +68,7 @@ sequenceDiagram
 ```
 > Note: For Transport Acknowledgement a dotted line is used to point out that this is not a BIS message but it is part of the AS4 feedback communication between serviceproviders. See section 2.2
 
-### 2.1 Invoice
+### <a name="21"></a>2.1 Invoice
 
 The invoicing process includes issuing and sending the invoice and the credit note from the supplier to the customer and the reception and handling at the customer’s site.
 *	The invoice refers to one order and a specification of delivered goods and services.
@@ -67,7 +87,7 @@ graph LR
 ```
 
 
-### 2.2 Transport acknowledgement or error/failure
+### <a name="22"></a>2.2 Transport acknowledgement or error/failure
 These are messages that are exchanged within the transport network(s) to inform about the process of carrying a message down the transport line.
 These responses may inform someone up-line that the delivery to a given point was successful or not and may contain details about issues that are relevant such as why a delivery was not successful.
 The key nature of these responses is that they do not in any way act on result of validation or processing of the content of the payload that is being transported.
@@ -77,14 +97,14 @@ The reason Transport acknowledgements are explicitly mentioned in this document 
 
 > For more information about how to properly use transport acknowledgements refer to [Peppol AS4 specifications](https://docs.peppol.eu/edelivery/as4/specification/) and the "Best current practices" document that is maintained by the Dutch Serviceprovider community.
 
-### 2.3 Message Level Response
+### <a name="23"></a>2.3 Message Level Response
 When a message has reached a given point in the transport line its content can be validated according to agreed specifications that may be both syntactical and semantic.
 The outcome of these validations should be reported to a relevant party up-line, informing him whether the validation was successful or not as well as giving some details.
 An example could be that an invoice message that is received is rejected because it is missing a closing tag (syntax error) or because its amounts don’t add up according to what is specified in the relevant syntax specification.
 A key nature of these messages is that they report on the message content on the basis of the technical specifications that apply to the message of the sender.
 
 
-### 2.4 Invoice Responses
+### <a name="24"></a>2.4 Invoice Responses
 A message that has been received and accepted for processing may call for an action on the receiver’s behalf.
 That receiver’s action can be reported back up-line to a relevant party.
 An example is that a technically correct invoice may be received but the receiver decides to reject the invoice for any business reason such as an invalid Purchase Ordernumber.
@@ -105,9 +125,9 @@ graph LR
 	F-->|Yes|I((End))
 ```
 
-## 3 Best practices
+## <a name="3"></a>3 Best practices
 
-### 3.1 Transport Level Response
+### <a name="31"></a>3.1 Transport Level Response
 
 Apart from the default transport-level errors as defined by the CEF eDelivery AS4 profile, the Peppol AS4 profile only specifies one additional transport-level error message, EBMS:0004 with errorDetail PEPPOL:NOT_SERVICED. This error is to be used if either the recipient is not known to the receiving access point, or the recipient does not support the specific document type or business process. The profile states the following:
 
@@ -117,7 +137,7 @@ This is a conflicting requirement: the RECOMMENDED keyword states the check is o
 
 In either way, the best practice is to always perform these checks, as there is no way to deliver a document to a recipient that is not known to the receiving access point. If no transport-level error would be returned, the sending access point would be unaware that the document is not delivered, and the document would get lost.
 
-### 3.2 Message Level Response
+### <a name="32"></a>3.2 Message Level Response
 
 #### 3.2.1 Scope
 
@@ -164,7 +184,7 @@ It is bad practise to point the Sender or Receiver other than indicating the ori
 | Receiver/Identifier	                    | cac:ReceiverParty/cbc:EndpointID                    |
 | DocumentIdentification/InstanceIdentifier | cac:DocumentResponse/cac:DocumentReference/cbc:ID   |
 
-### 3.3 Invoice Response
+### <a name="33"></a>3.3 Invoice Response
 
 #### 3.3.1 Scope
 
@@ -211,7 +231,7 @@ Within the required response timeframe, C4 can choose the most appropriate statu
 
 C4 should provide clear and meaningful reasons to assist C1 to take action. This can be done using a combination of Peppol-defined status reason and action codes and free text fields. Further details about specific invoice scenarios are provided in section 5.
 
-## 4 Message definitions
+## <a name="4"></a>4 Message definitions
 
 The latest version of the syntax of the BIS3 Message Level Response and Invoice Response can be found on the website of OpenPeppol:
 *  https://docs.peppol.eu/poacc/upgrade-3/syntax/MLR/tree/
@@ -219,7 +239,7 @@ The latest version of the syntax of the BIS3 Message Level Response and Invoice 
 
 In the following sections you will find a detailed description of the syntax and semantics that apply at the time of writing this document.
 
-### 4.1 Message Level Response 3.0
+### <a name="41"></a>4.1 Message Level Response 3.0
 
 Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ----                                          | ---                                                                                               | ---           | ---           | ---
@@ -254,7 +274,7 @@ ApplicationResponse                           |                                 
 :black_medium_small_square::black_medium_small_square::black_medium_small_square::black_medium_small_square::black_medium_small_square: cbc:StatusReasonCode          | "BV = fatal  or  BW = warning  or  SV = Syntax violation                                          | 1..1          |               | Issue type coded
 
 
-### 4.2 Invoice Response transaction 3.1
+### <a name="42"></a>4.2 Invoice Response transaction 3.1
 
 Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
 ---                                           | ---                                                                                               | ---           | ---           | ---
@@ -314,7 +334,7 @@ ApplicationResponse                           |                                 
 :black_medium_small_square::black_medium_small_square: cac:PartyName                          |                                                                                                   | 1..1          |               | Party name information
 :black_medium_small_square::black_medium_small_square::black_medium_small_square: cbc:Name                            | Haagse administratiegroep                                                                         | 1..1          | Text          | Buyer party name
 
-## 5 Invoice scenarios
+## <a name="5"></a>5 Invoice scenarios
 
 This section describes common business scenarios and provides examples to illustrate how a customer (C4) and serviceprovider of a customer (C3) can communicate invoice statusses with a serviceprovider of a supplier (C2) and a supplier (C1) via Peppol.
 
@@ -492,9 +512,9 @@ In case the recipient is unknown to the receiving service provider, or the docum
 
 **Feedback cycle**
 
-Step 	| Message                		    | Status							| Use
---- 	| ---                    		    | ---     							| ---
-1   	| Transport error        		    | EBMS:0004, PEPPOL:NOT_SERVICED	| Mandatory
+Step 	| Message                	    | Status					| Use
+--- 	| ---                    	    | ---     					| ---
+1   	| Transport error        	    | EBMS:0004, PEPPOL:NOT_SERVICED		| Mandatory
 
 #### <a name="522"></a>5.2.2 Syntax incorrect and/or schematron error
 
