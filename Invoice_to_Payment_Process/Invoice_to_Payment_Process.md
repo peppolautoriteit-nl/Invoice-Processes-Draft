@@ -386,6 +386,12 @@ Type 			| Scenario name
 
 ### <a name="51"></a>5.1 Accepting invoices
 
+Type 			| Scenario name 			 
+---  			| ---					 
+:heavy_check_mark:	| [Direct acceptance](#511)			
+:heavy_check_mark:	| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance](#512)
+:heavy_check_mark:	| [Invoice fails bank account number](#513)
+
 ##### <a name="511"></a>5.1.1 Direct acceptance
 
 **Scenario**
@@ -528,6 +534,20 @@ Customer accepts the invoice based on the new information.
 ### <a name="52"></a>5.2 Failures and rejecting invoices
 
 The following subsections each describe a scenario where a failure occurs in the process of delivering or processing the invoice.
+
+Type 			| Scenario name 			 
+---  			| ---					 
+:x:			| [Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process](#521)
+:x:			| [Syntax incorrect and/or schematron error](#522)
+:x:			| [Unable to deliver invoice to customer](#523)
+:x:			| [Invoice fails 3-way matching - Rejecting the invoice](#524)
+:x:			| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to rejection](#525)
+:x:			| [Bank account details not matching](#526)
+:x:			| [Supplier unknown in customer master data](#527)
+:x:			| [Payment terms or invoice due date not as expected](#528)
+:x:			| [Incorrect delivery of goods](#529)
+:x:			| [Duplicate invoice](#5210)
+:x:			| [VAT incorrect](#5211)
 
 #### <a name="521"></a>5.2.1 Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process
 
