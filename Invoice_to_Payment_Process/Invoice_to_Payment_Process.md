@@ -205,11 +205,13 @@ It is bad practise to point the Sender or Receiver other than indicating the ori
 
 #### 3.2.4 Mapping
 
-| Envelope of document sent                 | MLR                                                 |
+As stated in the [Peppol MLR Party Identification](https://docs.peppol.eu/poacc/upgrade-3/profiles/36-mlr/#_party_identification). The element `cac:SenderParty/cbc:EndpointID` MUST contain the party identification of the **receiver** of the original envelope. And the `cac:ReceiverParty/cbc:EndpointID` MUST contain the party identification of the **sender** of the original envelope.
+ 
+| Envelope of original document sent        | MLR                                                 |
 |-----                                      |------                                               |
-| Sender/Identifier                         | cac:SenderParty/cbc:EndpointID                      |
-| Receiver/Identifier	                    | cac:ReceiverParty/cbc:EndpointID                    |
-| DocumentIdentification/InstanceIdentifier | cac:DocumentResponse/cac:DocumentReference/cbc:ID   |
+| Sender/Identifier                         | cac:ReceiverParty/cbc:EndpointID                    |
+| Receiver/Identifier	                    | cac:SenderParty/cbc:EndpointID                      |
+| DocumentIdentification/InstanceIdentifier | cac:DocumentResponse/cac:DocumentReference/cbc:ID  |
 
 ### <a name="33"></a>3.3 Invoice Response
 
