@@ -64,3 +64,8 @@ The NPA proposes the following implementation path:
 2. Describe how the Invoice Response message is to be implemented by Dutch Serviceproviders
 3. Advise on a pragmatic technical proposal for a phased roll-out of the Invoice Response in the Dutch market, with the end-result being a mandatory implementation for both sending and receiving Serviceproviders. This proposal should at least contain: which statusses are supported for which actors.
 4. Describe a workable process for the scenario where a Supplier uses different Serviceproviders for sending and receiving.
+
+## Remarks By Members Technical Working Group:
+
+1. Unifiedpost remarks (Frie Vanparijs): As the BLR/IRM is essentialy an indication of the acceptance of the end user (C4), It is strange that the implementation by SP's  is marked as mandatory, while for end-users it is marked as optional. I would say SPs should mandatory support it, but they can only generate it on behalf of C4's that also support it. Why? because of point 3. in scope of Invoice response (3.3.1): T_he actual invoice status lives in the customer ERP system and should be delivered to the supplier ERP system. Customer and supplier choose their own channel and format to exchange the invoice status to from their AP to their ERP systems._ In that sense SP's answer should reflect the status of the ERP system of C4. This means the SP can only support it when he sends an answer behalf of a C4 that does support it.
+
