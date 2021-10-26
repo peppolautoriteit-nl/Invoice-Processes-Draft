@@ -195,7 +195,7 @@ The order is shown in the table below.
 |--             |----                       |----------               					|--                             |--         	|--     |
 | AB            | Message acknowledgement   | Document received by ServiceProvider			| NO                            | NO		| NO    |
 | RE            | Rejected                  | Rejected, document did not pass schematron validation	| YES                           | YES       	| YES   |
-| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | YES       	| YES   |
+| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | NO       	| YES   |
 
 #### 3.2.3 Routing
 
@@ -405,7 +405,7 @@ Step 	| Message                	    | Status	| Use
 ---	    | ---                    		| ---     	| ---
 1	    | Transport Acknowledgement     | OK		| Mandatory
 2	    | Message Level Response 		| AB		| Optional
-3	    | Message Level Response		| AP		| Mandatory
+3	    | Message Level Response		| AP		| Optional
 4	    | Invoice Response 			    | AB 		| Mandatory
 5	    | Invoice Response			    | AP		| Mandatory
 6	    | Invoice Response			    | PD		| Optional
@@ -438,7 +438,7 @@ Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
 1 	    | Transport Acknowledgement    	| OK		| Mandatory
 2 	    | Message Level Response 		| AB		| Optional
-3 	    | Message Level Response		| AP		| Mandatory
+3 	    | Message Level Response		| AP		| Optional
 4 	    | Invoice Response 			    | AB 		| Mandatory
 5 	    | Invoice Response			    | UQ		| Mandatory
 6 	    | Invoice Response			    | AP		| Mandatory
@@ -487,7 +487,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	    | Transport Acknowledgement       	| OK		| Mandatory
 2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
+3 	    | Message Level Response		    | AP		| Optional
 4 	    | Invoice Response 			        | AB 		| Mandatory
 5 	    | Invoice Response			        | UQ		| Mandatory
 6 	    | Invoice Response			        | AP		| Mandatory
@@ -618,7 +618,7 @@ Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
 1 	    | Transport Acknowledgement     | OK		| Mandatory
 2 	    | Message Level Response 		| AB		| Optional
-3 	    | Message Level Response		| AP		| Mandatory
+3 	    | Message Level Response		| AP		| Optional
 4 	    | Invoice Response 			    | Any 		| Failed to send within 1 hour
 
 ##### <a name="524"></a>5.2.4 Invoice fails 3-way matching - Rejecting the invoice
@@ -634,7 +634,7 @@ Step 	| Message                		| Status	| Use
 --- 	| ---                    		| ---     	| ---
 1 	    | Transport Acknowledgement     | OK		| Mandatory
 2 	    | Message Level Response 		| AB		| Optional
-3 	    | Message Level Response		| AP		| Mandatory
+3 	    | Message Level Response		| AP		| Optional
 4 	    | Invoice Response 			    | AB 		| Mandatory
 5 	    | Invoice Response			    | RE		| Mandatory
 
@@ -671,7 +671,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	    | Transport Acknowledgement       	| OK		| Mandatory
 2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
+3 	    | Message Level Response		    | AP		| Optional
 4 	    | Invoice Response 			        | AB 		| Mandatory
 5 	    | Invoice Response			        | UQ		| Mandatory
 6 	    | Invoice Response			        | RE		| Mandatory
@@ -729,7 +729,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	    | Transport Acknowledgement       	| OK		| Mandatory
 2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
+3 	    | Message Level Response		    | AP		| Optional
 4 	    | Invoice Response 			        | AB 		| Mandatory
 5 	    | Invoice Response			        | UQ		| Mandatory
 6 	    | Invoice Response			        | RE		| Mandatory
@@ -785,7 +785,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	    | Transport Acknowledgement       	| OK		| Mandatory
 2 	    | Message Level Response 		    | AB		| Optional
-3 	    | Message Level Response		    | AP		| Mandatory
+3 	    | Message Level Response		    | AP		| Optional
 4 	    | Invoice Response 			        | AB 		| Mandatory
 5 	    | Invoice Response			        | RE		| Mandatory
 
@@ -822,7 +822,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	| Transport Acknowledgement       	    | OK	| Mandatory
 2 	| Message Level Response 		    | AB	| Optional
-3 	| Message Level Response		    | AP	| Mandatory
+3 	| Message Level Response		    | AP	| Optional
 4 	| Invoice Response 			    | AB 	| Mandatory
 5 	| Invoice Response			    | UQ	| Mandatory
 6 	| Invoice Response			    | RE	| Mandatory
@@ -886,7 +886,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	| Transport Acknowledgement       	    | OK	| Mandatory
 2 	| Message Level Response 		    | AB	| Optional
-3 	| Message Level Response		    | AP	| Mandatory
+3 	| Message Level Response		    | AP	| Optional
 4 	| Invoice Response 			    | AB 	| Mandatory
 5 	| Invoice Response			    | UQ	| Mandatory
 6 	| Invoice Response			    | RE	| Mandatory
@@ -945,7 +945,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	| Transport Acknowledgement       	    | OK	| Mandatory
 2 	| Message Level Response 		    | AB	| Optional
-3 	| Message Level Response		    | AP	| Mandatory
+3 	| Message Level Response		    | AP	| Optional
 4 	| Invoice Response 			    | AB 	| Mandatory
 5 	| Invoice Response			    | RE	| Mandatory
 
@@ -985,7 +985,7 @@ Step 	| Message                		    | Status	| Use
 --- 	| ---                    		    | ---     	| ---
 1 	| Transport Acknowledgement       	    | OK	| Mandatory
 2 	| Message Level Response 		    | AB	| Optional
-3 	| Message Level Response		    | AP	| Mandatory
+3 	| Message Level Response		    | AP	| Optional
 4 	| Invoice Response 			    | AB 	| Mandatory
 5 	| Invoice Response			    | UQ	| Mandatory
 6 	| Invoice Response			    | RE	| Mandatory
