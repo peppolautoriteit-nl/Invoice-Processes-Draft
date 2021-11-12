@@ -170,7 +170,7 @@ In either way, the best practice is to always perform these checks, as there is 
 
 The scope of the Message Level Response is:
 
-1. The Message Level Response uses BIS Message Level Response 3.0 (see this link for the [Peppol business documentation|https://docs.peppol.eu/poacc/upgrade-3/profiles/36-mlr/]. The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
+1. The Message Level Response uses BIS Message Level Response 3.0 (see this link for the [Peppol business documentation](https://docs.peppol.eu/poacc/upgrade-3/profiles/36-mlr/). The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
 2. The Message Level Response is sent by the customer AP (C3) on behalf of the customer (C4) to the supplier (C1) but can be handled by the supplier AP (C2) conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to the envelop of the business document sent by the supplier.
 3. When publishing MLR support in your SMP the record should point to the sending AP, meaning that the supplier sending AP (C2) will receive the Message Level Response to match it to the Transaction ID of the sent document.
 4. The following errors are within the scope for a negative/rejecting Message Level Response:
