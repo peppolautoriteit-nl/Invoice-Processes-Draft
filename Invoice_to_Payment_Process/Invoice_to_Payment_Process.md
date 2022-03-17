@@ -195,7 +195,7 @@ The order is shown in the table below.
 |--             |----                       |----------               					|--                             |--         	|--     |
 | AB            | Message acknowledgement   | Document received by ServiceProvider			| NO                            | NO		| NO    |
 | RE            | Rejected                  | Rejected, document did not pass schematron validation	| YES                           | YES       	| YES   |
-| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | YES       	| YES   |
+| AP            | Accepted                  | Accepted, but not (yet) read by customer              	| NO                            | NO       	| YES   |
 
 #### 3.2.3 Routing
 
