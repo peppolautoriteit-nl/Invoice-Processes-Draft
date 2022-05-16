@@ -373,7 +373,7 @@ Type 			| Scenario name
 ---  			| ---					 
 :heavy_check_mark:	| [Direct acceptance](#511)			
 :heavy_check_mark:	| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance](#512)
-:heavy_check_mark:	| [Invoice fails bank account number](#513)
+:heavy_check_mark:	| [Invoice fails bank account number - Follow up with C1 out of channel leading to acceptance](#513)
 :x:			| [Transport error or rejection due to unknown recipient, unsupported document type, or unsupported process](#521)
 :x:			| [Syntax incorrect and/or schematron error](#522)
 :x:			| [Unable to deliver invoice to customer](#523)
@@ -394,7 +394,7 @@ Type 			| Scenario name
 ---  			| ---					 
 :heavy_check_mark:	| [Direct acceptance](#511)			
 :heavy_check_mark:	| [Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance](#512)
-:heavy_check_mark:	| [Invoice fails bank account number](#513)
+:heavy_check_mark:	| [Invoice fails bank account number - Follow up with C1 out of channel leading to acceptance](#513)
 
 ##### <a name="511"></a>5.1.1 Direct acceptance
 
