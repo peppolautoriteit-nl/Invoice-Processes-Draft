@@ -158,11 +158,11 @@ graph LR
 
 Apart from the default transport-level errors as defined by the CEF eDelivery AS4 profile, the Peppol AS4 profile only specifies one additional transport-level error message, EBMS:0004 with errorDetail PEPPOL:NOT_SERVICED. This error is to be used if either the recipient is not known to the receiving access point, or the recipient does not support the specific document type or business process. The profile states the following:
 
-> If a MSH is able to execute custom validations of the payload of a User Message during the ebMS message processing, it is RECOMMENDED that the Access Point includes the check on the addressee, document type id and process id. In case the addressed participant is not serviced for the specific document type and process by the Access Point, it MUST generate and send back an ebMS Error.
+> If an MSH is able to execute custom validations of the payload of a User Message during the ebMS message processing, it is RECOMMENDED that the Access Point includes the check on the addressee, document type id and process id. In case the addressed participant is not serviced for the specific document type and process by the Access Point, it MUST generate and send back an ebMS Error.
 
 This is a conflicting requirement: the RECOMMENDED keyword states the check is optional, but the MUST keyword makes the check mandatory.
 
-In either way, the best practice is to always perform these checks, as there is no way to deliver a document to a recipient that is not known to the receiving access point. If no transport-level error would be returned, the sending access point would be unaware that the document is not delivered, and the document would get lost.
+Either way, the best practice is to always perform these checks, as there is no way to deliver a document to a recipient that is not known to the receiving access point. If no transport-level error would be returned, the sending access point would be unaware that the document is not delivered, and the document would get lost.
 
 ### <a name="32"></a>3.2 Message Level Response
 
