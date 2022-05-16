@@ -171,15 +171,17 @@ Either way, the best practice is to always perform these checks, as there is no 
 The scope of the Message Level Response is:
 
 1. The Message Level Response uses BIS Message Level Response 3.0 (see this link for the [Peppol business documentation](https://docs.peppol.eu/poacc/upgrade-3/profiles/36-mlr/). The technical UBL message used is ApplicationResponse. See paragraph 5 for the message definition.
-2. The Message Level Response is sent by the customer AP (C3) on behalf of the customer (C4) to the supplier (C1) but can be handled by the supplier AP (C2) conform standard Peppol exchange mechanisms (including use of SML and SMP) and always refers to the envelop of the business document sent by the supplier.
-3. When publishing MLR support in your SMP the record should point to the sending AP, meaning that the supplier sending AP (C2) will receive the Message Level Response to match it to the Transaction ID of the sent document.
+2. The Message Level Response is sent by the customer AP (C3) on behalf of the customer (C4) to the supplier EndpointId (C1) and always refers to the envelop of the business document sent by the supplier conform standard Peppol exchange mechanisms (including use of SML and SMP). Though the supplier EndpointId is used for routing, the document MUST at least be processed by the supplier AP (C2). As it is the supplier AP's responsibility to validate business documents before sending it to the customer AP, receiving an MLR could mean that the supplier AP failed to execute this responsibility.
+3. When publishing MLR support for a supplier in your SMP the record should point to the sending AP, meaning that the supplier sending AP (C2) will receive the Message Level Response to match it to the Transaction ID of the sent document.
 4. The following errors are within the scope for a negative/rejecting Message Level Response:
  	* XML schema validation error.
 	* Standard Compliance violations (e.g. empty elements not being allowed by UBL 2.1).
 	* Validation error of type fatal error.
 	* Validation error of type warning. Warnings alone must NOT cause rejection of the business document (but they may be reported in addition to fatal errors).
 	* Wrong version of business document if not detected during transport (Will be handled like validation error of type fatal error).
-5. Should not be used to indicate delivery failures between C3 and C4. This can be a motivation to start using the invoice response to get information about the delivery to C4. This topic will be discussed within an OpenPeppol workgroup.
+5. Should not be used to indicate delivery failures between C3 and C4. This can be a motivation to start using the invoice response to get information about the delivery to C4. 
+
+> The topic mentioned in bullet 5 should be discussed within an OpenPeppol workgroup.
 
 #### 3.2.2 Response and status codes
 
@@ -201,7 +203,7 @@ The order is shown in the table below.
 
 The MLR is a business document indicating the technical status of a document sent to the sender of the document. The MLR refers to the instance Identifier of the envelop of the document sent. The instance Identifier must be stored during creation of the document to be able to handle the returned MLR. When the sender AP creates the envelop and does not share the instance Identifier with the original sender the MLR can only be handled by the original sender AP. To be able to receive the MLR, the original sender AP must be registered as ServiceEndpointList/Endpoint in the original sender indentifier SMP records for MLR documents. If the sender AP does not own the SMP records for the sender indentifier the AP must ask the owner of the identifier to register the MLR document.
 
-It is bad practise to point the Sender or Receiver other than indicating the original sender or original receiver in the SDB envelop. The SBD envelop may be used outside the scope of the AP’s.
+> It is bad practise to point to any other identifier than the original sender or original receiver in the SBD envelop. The original sender or receival always being an enduser. To be more precise, setting the identifier in the SBD envelop to an identifier of an accesspoint instead of an enduser is not advised by the NPa. The NPa recognizes that the SBD envelop may be used outside the scope of the AP’s.
 
 #### 3.2.4 Mapping
 
