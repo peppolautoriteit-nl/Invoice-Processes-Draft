@@ -137,7 +137,7 @@ That receiver’s action can be reported back up-line to a relevant party.
 An example is that a technically correct invoice may be received but the receiver decides to reject the invoice for any business reason such as an invalid Purchase Ordernumber.
 The key nature of these responses is that they report a business decision that is made on the message instance received.
 We want to state clearly that any business requirements that are applied on top of the standard document business rules must have been explicitly communicated by the customer to the supplier.
-This can be done by mentioning the specific requirements in a tender, in the purchase order agreement or on a publicly known webpage (for example basisfactuur Rijk).
+This can be done by mentioning the specific requirements in a tender, in the purchase order agreement or on a publicly known webpage, for example [basisfactuur Rijk](https://logius.nl/diensten/e-factureren/handreiking-basisfactuur-rijk).
 
 ```mermaid
 graph LR
