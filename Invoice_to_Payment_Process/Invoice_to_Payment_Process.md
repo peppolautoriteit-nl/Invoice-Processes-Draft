@@ -419,13 +419,32 @@ Step 	| Message                	    | Status	| Use
 Buyer gives final approval of the invoice.
 
 ```XML
-<cac:Response>
-  <cbc:ResponseCode listID="UNCL4343OpSubset">AP</cbc:ResponseCode>
-  <cbc:EffectiveDate>2020-11-01</cbc:EffectiveDate>
-  <cac:Status>
-    <cbc:StatusReasonCode listID="OPStatusReason">NON</cbc:StatusReasonCode>
-  </cac:Status>
-</cac:Response>
+<?xml version="1.0" encoding="UTF-8"?>
+<ApplicationResponse xmlns="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2"
+					 xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+					 xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+	<cbc:CustomizationID>urn:fdc:peppol.eu:poacc:trns:mlr:3</cbc:CustomizationID>
+	<cbc:ProfileID>urn:fdc:peppol.eu:poacc:bis:mlr:3</cbc:ProfileID>
+	<cbc:ID>NPA-MLR001</cbc:ID>
+	<cbc:IssueDate>2022-05-01</cbc:IssueDate>
+	<cbc:IssueTime>12:01:02</cbc:IssueTime>
+	<cac:SenderParty>
+		<cbc:EndpointID schemeID="0190">00000004003214345001</cbc:EndpointID>
+	</cac:SenderParty>
+	<cac:ReceiverParty>
+		<cbc:EndpointID schemeID="0190">00000099003214345001</cbc:EndpointID>
+	</cac:ReceiverParty>
+	<cac:DocumentResponse>
+		<cac:Response>
+			<cbc:ResponseCode>AP</cbc:ResponseCode>
+		</cac:Response>
+		<cac:DocumentReference>
+			<cbc:ID>118e3040-51d2-11e3-8f96-0800200c9a66</cbc:ID>
+			<cbc:DocumentTypeCode>380</cbc:DocumentTypeCode>
+			<cbc:VersionID>2</cbc:VersionID>
+		</cac:DocumentReference>
+	</cac:DocumentResponse>
+</ApplicationResponse>
 ```
 
 ##### <a name="512"></a>5.1.2 Invoice fails 3-way matching - Follow up with C1 out of channel leading to acceptance
