@@ -306,6 +306,8 @@ ApplicationResponse                           |                                 
 
 #### <a name="411"></a>4.1.1 MLR considerations
 
+The specification uses an example of an xpath with cac: and cbc: prefixes. These are commonly used namespace prefixes, but an implementation should in principle either use the namespace prefixes of the original document, or drop the namespaces in full. The NPA test tool uses namespace-uri() calls in the xpath selectors for this purpose. The NPA is an advocate of standardizing the use of prefixes. Therefor we suggest to always use doc: / cac: / cbc:
+
 ### <a name="42"></a>4.2 Invoice Response transaction 3.1
 
 Field                                         | Example content                                                                                   | Card.   | Data type     | Explanation
