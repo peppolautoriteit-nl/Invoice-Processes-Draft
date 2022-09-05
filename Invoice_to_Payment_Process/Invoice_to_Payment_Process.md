@@ -505,7 +505,7 @@ Customer accepts the invoice based on additional information received from the s
 A supplier (C1) sends an invoice that contains a bank account number that is not known in the ERP system of the customer (C4).
 The supplier has probably forgotten to inform the customer of a changed bank account number, but it could be a potential case of fraude.
 Human intervention is preferred in this case to prevent potential fraud cases.
-The customer contacts the supplier to
+The customer contacts the supplier to verify the new information with the supplier.
 
 **Feedback cycle**
 
